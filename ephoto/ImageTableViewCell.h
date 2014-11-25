@@ -10,8 +10,13 @@
 
 
 @interface ImageTableViewCell : UITableViewCell
-@property(nonatomic)UIImageView *v1;
-@property(nonatomic)UIImageView *v2;
-@property(nonatomic)UIImageView *v3;
-@property(nonatomic)UIImageView *v4;
+@property(nonatomic)UIButton *v1;
+@property(nonatomic)UIButton *v2;
+@property(nonatomic)UIButton *v3;
+@property(nonatomic)UIButton *v4;
+
+@property(nonatomic)UIImageView *i1;
+@property(nonatomic)UIImageView *i2;
+@property(nonatomic)UIImageView *i3;
+@property(nonatomic)UIImageView *i4;
 @end

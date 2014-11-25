@@ -38,6 +38,9 @@
     DBAccount *account = [manager linkedAccount];
     SecretKey *sk = [SecretKey instance];
     if (account.isLinked && [sk.key length] > 0) {
+        DBFilesystem *filesystem = [[DBFilesystem alloc] initWithAccount:account];
+        [DBFilesystem setSharedFilesystem:filesystem];
+        
         NSLog(@"account:%@ name:%@ key:%@", account.info.displayName, account.info.userName, sk.key);
         UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
         MainTabBarController *main = [storyboard instantiateViewControllerWithIdentifier:@"Main"];
@@ -96,10 +99,13 @@
     
     DBAccountManager *manager = [DBAccountManager sharedManager];
     DBAccount *account = [manager linkedAccount];
-    if (!account) {
+    if (!account || !account.isLinked) {
         NSLog(@"no account linked");
         return;
     }
+    
+    DBFilesystem *filesystem = [[DBFilesystem alloc] initWithAccount:account];
+    [DBFilesystem setSharedFilesystem:filesystem];
     
     [SecretKey instance].key = self.keyTextField.text;
     [[SecretKey instance] save];

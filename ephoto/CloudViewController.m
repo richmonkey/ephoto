@@ -60,6 +60,10 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    return 80;
+}
+
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return [self.imageArray count]/4 + ([self.imageArray count]%4?1:0);
 }
@@ -101,33 +105,35 @@
     int index = indexPath.row*4;
     if (index < [self.imageArray count]) {
         DBFileInfo *info = [self.imageArray objectAtIndex:index];
-        cell.v1.image = [self loadImage:info];
+        UIImage *image = [self loadImage:info];
+        [cell.v1 setImage:image forState:UIControlStateNormal];
     }
     
     index++;
     if (index < [self.imageArray count]) {
         DBFileInfo *info = [self.imageArray objectAtIndex:index];
-        cell.v2.image = [self loadImage:info];
+        UIImage *image = [self loadImage:info];
+        [cell.v1 setImage:image forState:UIControlStateNormal];
     }
     
     index++;
     if (index < [self.imageArray count]) {
         DBFileInfo *info = [self.imageArray objectAtIndex:index];
-        cell.v3.image = [self loadImage:info];
+        UIImage *image = [self loadImage:info];
+        [cell.v1 setImage:image forState:UIControlStateNormal];
     }
     
     index++;
     if (index < [self.imageArray count]) {
         DBFileInfo *info = [self.imageArray objectAtIndex:index];
-        cell.v4.image = [self loadImage:info];
+        UIImage *image = [self loadImage:info];
+        [cell.v1 setImage:image forState:UIControlStateNormal];
     }
-    return nil;
+    return cell;
 }
 
 -(void)setupFS:(DBAccount*)account {
-    DBFilesystem *filesystem = [[DBFilesystem alloc] initWithAccount:account];
-    [DBFilesystem setSharedFilesystem:filesystem];
-
+    DBFilesystem *filesystem = [DBFilesystem sharedFilesystem];
     DBPath *newPath = [[DBPath root] childPath:@"images"];
     DBFileInfo *info = [filesystem fileInfoForPath:newPath error:nil];
     if (info == nil) {

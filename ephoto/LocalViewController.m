@@ -10,6 +10,7 @@
 #import <AssetsLibrary/AssetsLibrary.h>
 #import <CommonCrypto/CommonDigest.h>
 #import "ImageTableViewCell.h"
+#import "SelectorViewController.h"
 
 @interface LocalViewController ()
 @property(nonatomic)ALAssetsLibrary *library;
@@ -27,8 +28,10 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	// Do any additional setup after loading the view, typically from a nib.
-    
+
+    UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithTitle:@"add" style:UIBarButtonItemStylePlain
+                                                            target:self action:@selector(copyToCloud)];
+    self.navigationItem.rightBarButtonItem = item;
     self.tableView.dataSource = self;
     self.tableView.delegate = self;
     [self listImages];
@@ -41,6 +44,14 @@
     // Dispose of any resources that can be recreated.
 }
 
+-(void)copyToCloud {
+    NSLog(@"copy to cloud");
+    
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    SelectorViewController *controller = [storyboard instantiateViewControllerWithIdentifier:@"Selector"];
+    controller.assets = self.assets;
+    [self.navigationController pushViewController:controller animated:YES];
+}
 
 - (void)listImages {
     
@@ -74,6 +85,14 @@
     
 }
 
+-(void)onClick:(UIButton*)sender {
+    NSLog(@"tag:%d", sender.tag);
+    
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    return 80;
+}
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return [self.assets count]/4 + ([self.assets count]%4?1:0);
@@ -83,37 +102,40 @@
     ImageTableViewCell *cell = (ImageTableViewCell*)[self.tableView dequeueReusableCellWithIdentifier:@"cell"];
     if (cell == nil) {
         cell = [[ImageTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell"];
+        [cell.v1 addTarget:self action:@selector(onClick:) forControlEvents:UIControlEventTouchUpInside];
     }
     int index = indexPath.row*4;
     if (index < [self.assets count]) {
         ALAsset *asset = [self.assets objectAtIndex:index];
         UIImage *i = [UIImage imageWithCGImage:[asset thumbnail]];
-        cell.v1.image = i;
+        [cell.v1 setImage:i forState:UIControlStateNormal];
+        cell.v1.tag = index;
     }
     
     index++;
     if (index < [self.assets count]) {
         ALAsset *asset = [self.assets objectAtIndex:index];
         UIImage *i = [UIImage imageWithCGImage:[asset thumbnail]];
-        cell.v2.image = i;
+        [cell.v2 setImage:i forState:UIControlStateNormal];
+        cell.v2.tag = index;
     }
     
     index++;
     if (index < [self.assets count]) {
         ALAsset *asset = [self.assets objectAtIndex:index];
         UIImage *i = [UIImage imageWithCGImage:[asset thumbnail]];
-        cell.v3.image = i;
+        [cell.v3 setImage:i forState:UIControlStateNormal];
+        cell.v3.tag = index;
+    }
+    
+    index++;
+    if (index < [self.assets count]) {
+        ALAsset *asset = [self.assets objectAtIndex:index];
+        UIImage *i = [UIImage imageWithCGImage:[asset thumbnail]];
+        [cell.v4 setImage:i forState:UIControlStateNormal];
+        cell.v4.tag = index;
     }
 
-    
-    index++;
-    if (index < [self.assets count]) {
-        ALAsset *asset = [self.assets objectAtIndex:index];
-        UIImage *i = [UIImage imageWithCGImage:[asset thumbnail]];
-        cell.v4.image = i;
-    }
-
-    
     return cell;
 }
 
