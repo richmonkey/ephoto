@@ -94,15 +94,35 @@
     NSString *md5 = [self md5:data];
     DBPath *path = [[DBPath root] childPath:@"images"];
     path = [path childPath:md5];
-    DBError *err;
-    DBFile *file = [filesystem createFile:path error:&err];
-    if (!file) {
-        NSLog(@"create file error:%@", err);
-        return;
-    }
     
     SecretKey *key = [SecretKey instance];
     NSData *edata = [AES encrypt:data password:key.key];
+    
+    DBFile *file;
+    DBError *err;
+    DBFileInfo *info = [filesystem fileInfoForPath:path error:&err];
+    if (info) {
+        if (info.size == [edata length]) {
+            NSLog(@"file exist:%@", [path stringValue]);
+            LevelDB *db = [LevelDB defaultLevelDB];
+            [db setInt:1 forKey:rep.url.absoluteString];
+            return;
+        } else {
+            file = [filesystem openFile:path error:&err];
+            if (!file) {
+                NSLog(@"open file error:%@", err);
+                return;
+            }
+            NSLog(@"open old file:%@", path.stringValue);
+        }
+    } else {
+        file = [filesystem createFile:path error:&err];
+        if (!file) {
+            NSLog(@"create file error:%@", err);
+            return;
+        }
+        NSLog(@"create file:%@", path.stringValue);
+    }
     
     BOOL res = [file writeData:edata error:nil];
     if (!res) {
@@ -111,10 +131,10 @@
     }
     
     [file close];
-    
-    NSLog(@"create file:%@", path.stringValue);
+
     LevelDB *db = [LevelDB defaultLevelDB];
     [db setInt:1 forKey:rep.url.absoluteString];
+    [db setString:rep.url.absoluteString forKey:path.stringValue];
 }
 
 -(void)copyToCloud {

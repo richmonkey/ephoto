@@ -13,6 +13,7 @@
 #import "AES.h"
 #import "SecretKey.h"
 #import "ImageViewController.h"
+#import "LevelDB.h"
 
 @interface CloudViewController ()
 @property(nonatomic)NSMutableDictionary *imageDict;
@@ -243,6 +244,12 @@
     //removed
     for (NSString *key in removedSet) {
         [self.imageDict removeObjectForKey:key];
+        LevelDB *db = [LevelDB defaultLevelDB];
+        NSString *url = [db stringForKey:key];
+        if (url.length > 0) {
+            [db removeValueForKey:url];
+            [db removeValueForKey:key];
+        }
         NSLog(@"file %@ removed", key);
     }
     self.imageArray = [self.imageDict allValues];
