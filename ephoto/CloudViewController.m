@@ -10,6 +10,9 @@
 #import <Dropbox/Dropbox.h>
 #import "ImageTableViewCell.h"
 #import "UIImage+Resize.h"
+#import "AES.h"
+#import "SecretKey.h"
+#import "ImageViewController.h"
 
 @interface CloudViewController ()
 @property(nonatomic)NSMutableDictionary *imageDict;
@@ -60,14 +63,45 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return 80;
+
+-(void)onClick:(UIButton*)sender {
+    NSLog(@"tag:%d", sender.tag);
+    int index = sender.tag;
+    if (index >= [self.imageArray count]) {
+        return;
+    }
+    
+    DBFileInfo *info = [self.imageArray objectAtIndex:index];
+    UIImage *image = [self loadFullScreenImage:info];
+    ImageViewController *c = [[ImageViewController alloc] init];
+    c.image = image;
+    [self.navigationController pushViewController:c animated:YES];
 }
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return [self.imageArray count]/4 + ([self.imageArray count]%4?1:0);
-}
+-(UIImage*)loadFullScreenImage:(DBFileInfo*)info {
+    DBFilesystem *filesystem = [DBFilesystem sharedFilesystem];
+    DBFile *file = [filesystem openFile:info.path error:nil];
+    if (file == nil) {
+        NSLog(@"open file error");
+        return nil;
+    }
+    NSData *data = [file readData:nil];
+    if (data == nil) {
+        NSLog(@"read file error");
+        return nil;
+    }
+    
+    SecretKey *key = [SecretKey instance];
+    NSData *ddata = [AES descrypt:data password:key.key];
+    UIImage *image = [UIImage imageWithData:ddata];
+    if (image == nil) {
+        NSLog(@"invalid file format");
+        return nil;
+    }
+    
+    return image;
 
+}
 - (UIImage*)loadImage:(DBFileInfo*)info {
     UIImage *image = [self.cache objectForKey:info.path.stringValue];
     
@@ -86,7 +120,9 @@
         return nil;
     }
     
-    image = [UIImage imageWithData:data];
+    SecretKey *key = [SecretKey instance];
+    NSData *ddata = [AES descrypt:data password:key.key];
+    image = [UIImage imageWithData:ddata];
     if (image == nil) {
         NSLog(@"invalid file format");
         return nil;
@@ -97,37 +133,65 @@
     return sizeImage;
 }
 
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    return 80;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    return [self.imageArray count]/4 + ([self.imageArray count]%4?1:0);
+}
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     ImageTableViewCell *cell = (ImageTableViewCell*)[self.tableView dequeueReusableCellWithIdentifier:@"cell"];
     if (cell == nil) {
         cell = [[ImageTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell"];
+        [cell.v1 addTarget:self action:@selector(onClick:) forControlEvents:UIControlEventTouchUpInside];
+        [cell.v2 addTarget:self action:@selector(onClick:) forControlEvents:UIControlEventTouchUpInside];
+        [cell.v3 addTarget:self action:@selector(onClick:) forControlEvents:UIControlEventTouchUpInside];
+        [cell.v4 addTarget:self action:@selector(onClick:) forControlEvents:UIControlEventTouchUpInside];
     }
     int index = indexPath.row*4;
     if (index < [self.imageArray count]) {
         DBFileInfo *info = [self.imageArray objectAtIndex:index];
         UIImage *image = [self loadImage:info];
         [cell.v1 setImage:image forState:UIControlStateNormal];
+        cell.v1.tag = index;
+        cell.v1.hidden = NO;
+    } else {
+        cell.v1.hidden = YES;
     }
     
     index++;
     if (index < [self.imageArray count]) {
         DBFileInfo *info = [self.imageArray objectAtIndex:index];
         UIImage *image = [self loadImage:info];
-        [cell.v1 setImage:image forState:UIControlStateNormal];
+        [cell.v2 setImage:image forState:UIControlStateNormal];
+        cell.v2.tag = index;
+        cell.v2.hidden = NO;
+    } else {
+        cell.v2.hidden = YES;
     }
     
     index++;
     if (index < [self.imageArray count]) {
         DBFileInfo *info = [self.imageArray objectAtIndex:index];
         UIImage *image = [self loadImage:info];
-        [cell.v1 setImage:image forState:UIControlStateNormal];
+        [cell.v3 setImage:image forState:UIControlStateNormal];
+        cell.v3.tag = index;
+        cell.v3.hidden = NO;
+    } else {
+        cell.v3.hidden = YES;
     }
     
     index++;
     if (index < [self.imageArray count]) {
         DBFileInfo *info = [self.imageArray objectAtIndex:index];
         UIImage *image = [self loadImage:info];
-        [cell.v1 setImage:image forState:UIControlStateNormal];
+        [cell.v4 setImage:image forState:UIControlStateNormal];
+        cell.v4.tag = index;
+        cell.v4.hidden = NO;
+    } else {
+        cell.v4.hidden = YES;
     }
     return cell;
 }

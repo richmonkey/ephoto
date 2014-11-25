@@ -11,6 +11,7 @@
 #import <CommonCrypto/CommonDigest.h>
 #import "ImageTableViewCell.h"
 #import "SelectorViewController.h"
+#import "ImageViewController.h"
 
 @interface LocalViewController ()
 @property(nonatomic)ALAssetsLibrary *library;
@@ -87,7 +88,15 @@
 
 -(void)onClick:(UIButton*)sender {
     NSLog(@"tag:%d", sender.tag);
-    
+    int index = sender.tag;
+    if (index >= [self.assets count]) {
+        return;
+    }
+    ALAsset *asset = [self.assets objectAtIndex:index];
+    UIImage *image = [UIImage imageWithCGImage:[[asset defaultRepresentation] fullScreenImage]];
+    ImageViewController *c = [[ImageViewController alloc] init];
+    c.image = image;
+    [self.navigationController pushViewController:c animated:YES];
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -103,6 +112,9 @@
     if (cell == nil) {
         cell = [[ImageTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell"];
         [cell.v1 addTarget:self action:@selector(onClick:) forControlEvents:UIControlEventTouchUpInside];
+        [cell.v2 addTarget:self action:@selector(onClick:) forControlEvents:UIControlEventTouchUpInside];
+        [cell.v3 addTarget:self action:@selector(onClick:) forControlEvents:UIControlEventTouchUpInside];
+        [cell.v4 addTarget:self action:@selector(onClick:) forControlEvents:UIControlEventTouchUpInside];
     }
     int index = indexPath.row*4;
     if (index < [self.assets count]) {
@@ -110,6 +122,9 @@
         UIImage *i = [UIImage imageWithCGImage:[asset thumbnail]];
         [cell.v1 setImage:i forState:UIControlStateNormal];
         cell.v1.tag = index;
+        cell.v1.hidden = NO;
+    } else {
+        cell.v1.hidden = YES;
     }
     
     index++;
@@ -118,6 +133,9 @@
         UIImage *i = [UIImage imageWithCGImage:[asset thumbnail]];
         [cell.v2 setImage:i forState:UIControlStateNormal];
         cell.v2.tag = index;
+        cell.v2.hidden = NO;
+    } else {
+        cell.v2.hidden = YES;
     }
     
     index++;
@@ -126,6 +144,9 @@
         UIImage *i = [UIImage imageWithCGImage:[asset thumbnail]];
         [cell.v3 setImage:i forState:UIControlStateNormal];
         cell.v3.tag = index;
+        cell.v3.hidden = NO;
+    } else {
+        cell.v3.hidden = YES;
     }
     
     index++;
@@ -134,6 +155,9 @@
         UIImage *i = [UIImage imageWithCGImage:[asset thumbnail]];
         [cell.v4 setImage:i forState:UIControlStateNormal];
         cell.v4.tag = index;
+        cell.v4.hidden = NO;
+    } else {
+        cell.v4.hidden = YES;
     }
 
     return cell;

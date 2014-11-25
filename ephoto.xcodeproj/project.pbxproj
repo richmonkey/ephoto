@@ -37,6 +37,12 @@
 		6D41B3461A244A9800DC79FF /* libleveldb.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6D41B33F1A244A9800DC79FF /* libleveldb.a */; };
 		6D41B3491A244AD000DC79FF /* LevelDB.mm in Sources */ = {isa = PBXBuildFile; fileRef = 6D41B3481A244AD000DC79FF /* LevelDB.mm */; };
 		6D41B34C1A2451DF00DC79FF /* SelectorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D41B34B1A2451DF00DC79FF /* SelectorViewController.m */; };
+		6D41B3561A24890A00DC79FF /* AESCrypt.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D41B34F1A24890A00DC79FF /* AESCrypt.m */; };
+		6D41B3571A24890A00DC79FF /* NSData+Base64.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D41B3511A24890A00DC79FF /* NSData+Base64.m */; };
+		6D41B3581A24890A00DC79FF /* NSData+CommonCrypto.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D41B3531A24890A00DC79FF /* NSData+CommonCrypto.m */; };
+		6D41B3591A24890A00DC79FF /* NSString+Base64.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D41B3551A24890A00DC79FF /* NSString+Base64.m */; };
+		6D41B35C1A248A1300DC79FF /* AES.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D41B35B1A248A1300DC79FF /* AES.m */; };
+		6D41B35F1A248F6200DC79FF /* ImageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D41B35E1A248F6200DC79FF /* ImageViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -106,6 +112,18 @@
 		6D41B3481A244AD000DC79FF /* LevelDB.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = LevelDB.mm; sourceTree = "<group>"; };
 		6D41B34A1A2451DF00DC79FF /* SelectorViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SelectorViewController.h; sourceTree = "<group>"; };
 		6D41B34B1A2451DF00DC79FF /* SelectorViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SelectorViewController.m; sourceTree = "<group>"; };
+		6D41B34E1A24890A00DC79FF /* AESCrypt.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AESCrypt.h; sourceTree = "<group>"; };
+		6D41B34F1A24890A00DC79FF /* AESCrypt.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AESCrypt.m; sourceTree = "<group>"; };
+		6D41B3501A24890A00DC79FF /* NSData+Base64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+Base64.h"; sourceTree = "<group>"; };
+		6D41B3511A24890A00DC79FF /* NSData+Base64.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSData+Base64.m"; sourceTree = "<group>"; };
+		6D41B3521A24890A00DC79FF /* NSData+CommonCrypto.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+CommonCrypto.h"; sourceTree = "<group>"; };
+		6D41B3531A24890A00DC79FF /* NSData+CommonCrypto.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSData+CommonCrypto.m"; sourceTree = "<group>"; };
+		6D41B3541A24890A00DC79FF /* NSString+Base64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Base64.h"; sourceTree = "<group>"; };
+		6D41B3551A24890A00DC79FF /* NSString+Base64.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+Base64.m"; sourceTree = "<group>"; };
+		6D41B35A1A248A1300DC79FF /* AES.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AES.h; sourceTree = "<group>"; };
+		6D41B35B1A248A1300DC79FF /* AES.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AES.m; sourceTree = "<group>"; };
+		6D41B35D1A248F6200DC79FF /* ImageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageViewController.h; sourceTree = "<group>"; };
+		6D41B35E1A248F6200DC79FF /* ImageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -180,6 +198,7 @@
 		6D41B2E61A232A9300DC79FF /* ephoto */ = {
 			isa = PBXGroup;
 			children = (
+				6D41B34D1A24890A00DC79FF /* aes */,
 				6D41B3371A244A9800DC79FF /* leveldb */,
 				6D41B2EF1A232A9300DC79FF /* AppDelegate.h */,
 				6D41B2F01A232A9300DC79FF /* AppDelegate.m */,
@@ -198,10 +217,14 @@
 				6D41B32D1A2380D800DC79FF /* MainTabBarController.m */,
 				6D41B32F1A23856900DC79FF /* LoginViewController.h */,
 				6D41B3301A23856900DC79FF /* LoginViewController.m */,
+				6D41B35D1A248F6200DC79FF /* ImageViewController.h */,
+				6D41B35E1A248F6200DC79FF /* ImageViewController.m */,
 				6D41B3341A2389A700DC79FF /* SecretKey.h */,
 				6D41B3351A2389A700DC79FF /* SecretKey.m */,
 				6D41B3471A244AD000DC79FF /* LevelDB.h */,
 				6D41B3481A244AD000DC79FF /* LevelDB.mm */,
+				6D41B35A1A248A1300DC79FF /* AES.h */,
+				6D41B35B1A248A1300DC79FF /* AES.m */,
 				6D41B2FB1A232A9300DC79FF /* Images.xcassets */,
 				6D41B2E71A232A9300DC79FF /* Supporting Files */,
 			);
@@ -256,6 +279,21 @@
 				6D41B3451A244A9800DC79FF /* write_batch.h */,
 			);
 			path = leveldb;
+			sourceTree = "<group>";
+		};
+		6D41B34D1A24890A00DC79FF /* aes */ = {
+			isa = PBXGroup;
+			children = (
+				6D41B34E1A24890A00DC79FF /* AESCrypt.h */,
+				6D41B34F1A24890A00DC79FF /* AESCrypt.m */,
+				6D41B3501A24890A00DC79FF /* NSData+Base64.h */,
+				6D41B3511A24890A00DC79FF /* NSData+Base64.m */,
+				6D41B3521A24890A00DC79FF /* NSData+CommonCrypto.h */,
+				6D41B3531A24890A00DC79FF /* NSData+CommonCrypto.m */,
+				6D41B3541A24890A00DC79FF /* NSString+Base64.h */,
+				6D41B3551A24890A00DC79FF /* NSString+Base64.m */,
+			);
+			path = aes;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -359,12 +397,18 @@
 				6D41B3321A23856900DC79FF /* LoginViewController.m in Sources */,
 				6D41B2FA1A232A9300DC79FF /* CloudViewController.m in Sources */,
 				6D41B32E1A2380D800DC79FF /* MainTabBarController.m in Sources */,
+				6D41B3561A24890A00DC79FF /* AESCrypt.m in Sources */,
 				6D41B2F11A232A9300DC79FF /* AppDelegate.m in Sources */,
+				6D41B3581A24890A00DC79FF /* NSData+CommonCrypto.m in Sources */,
 				6D41B3491A244AD000DC79FF /* LevelDB.mm in Sources */,
 				6D41B3281A237C8300DC79FF /* ImageTableViewCell.m in Sources */,
+				6D41B35C1A248A1300DC79FF /* AES.m in Sources */,
+				6D41B35F1A248F6200DC79FF /* ImageViewController.m in Sources */,
+				6D41B3591A24890A00DC79FF /* NSString+Base64.m in Sources */,
 				6D41B2F71A232A9300DC79FF /* LocalViewController.m in Sources */,
 				6D41B3361A2389A700DC79FF /* SecretKey.m in Sources */,
 				6D41B2ED1A232A9300DC79FF /* main.m in Sources */,
+				6D41B3571A24890A00DC79FF /* NSData+Base64.m in Sources */,
 				6D41B32B1A237F8100DC79FF /* UIImage+Resize.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -588,6 +632,7 @@
 				6D41B3141A232A9300DC79FF /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		6D41B3151A232A9400DC79FF /* Build configuration list for PBXNativeTarget "ephotoTests" */ = {
 			isa = XCConfigurationList;
@@ -596,6 +641,7 @@
 				6D41B3171A232A9400DC79FF /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

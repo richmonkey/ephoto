@@ -12,6 +12,8 @@
 #import <CommonCrypto/CommonDigest.h>
 #import "LevelDB.h"
 #import <Dropbox/Dropbox.h>
+#import "AES.h"
+#import "SecretKey.h"
 
 @interface SelImage : NSObject
 
@@ -99,7 +101,10 @@
         return;
     }
     
-    BOOL res = [file writeData:data error:nil];
+    SecretKey *key = [SecretKey instance];
+    NSData *edata = [AES encrypt:data password:key.key];
+    
+    BOOL res = [file writeData:edata error:nil];
     if (!res) {
         NSLog(@"write file error");
         return;
