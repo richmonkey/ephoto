@@ -5,17 +5,43 @@
 //  Created by houxh on 14-11-24.
 //  Copyright (c) 2014年 beetle. All rights reserved.
 //
+#import <Dropbox/Dropbox.h>
 
 #import "AppDelegate.h"
+#import "MainTabBarController.h"
+#import "LoginViewController.h"
+#import "SecretKey.h"
+
+#define APP_KEY     @"brwqse4egm3c197"
+#define APP_SECRET  @"jwfc0uuseht901p"
 
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     // Override point for customization after application launch.
+    DBAccountManager* accountMgr = [[DBAccountManager alloc]
+                                    initWithAppKey:APP_KEY
+                                    secret:APP_SECRET];
+    [DBAccountManager setSharedManager:accountMgr];
+
+    [[SecretKey instance] load];
+    
+
     return YES;
 }
-							
+
+- (BOOL)application:(UIApplication *)app openURL:(NSURL *)url
+  sourceApplication:(NSString *)source annotation:(id)annotation
+{
+    DBAccount *account = [[DBAccountManager sharedManager] handleOpenURL:url];
+    if (account) {
+        NSLog(@"App linked successfully!");
+        return YES;
+    }
+    return NO;
+}
+
 - (void)applicationWillResignActive:(UIApplication *)application
 {
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
