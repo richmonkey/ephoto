@@ -14,6 +14,7 @@
 #import <Dropbox/Dropbox.h>
 #import "AES.h"
 #import "SecretKey.h"
+#import "PhotoMetaDB.h"
 
 @interface SelImage : NSObject
 
@@ -47,17 +48,14 @@
     UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithTitle:@"OK" style:UIBarButtonItemStylePlain
                                                             target:self action:@selector(copyToCloud)];
     self.navigationItem.rightBarButtonItem = item;
-    LevelDB *db = [LevelDB defaultLevelDB];
-    
+    PhotoMetaDB *db = [PhotoMetaDB instance];
     NSMutableArray *images = [NSMutableArray array];
     for (ALAsset *asset in self.assets) {
         ALAssetRepresentation *rep = [asset defaultRepresentation];
         NSLog(@"filename:%@ url:%@, uti:%@", [rep filename], [rep url], [rep UTI]);
-        int64_t selected = [db intForKey:rep.url.absoluteString];
-        if (selected) {
+        if ([db isExistInCloud:rep.url.absoluteString]) {
             continue;
         }
-        
         SelImage *s = [[SelImage alloc] init];
         s.asset = asset;
         [images addObject:s];
@@ -104,8 +102,8 @@
     if (info) {
         if (info.size == [edata length]) {
             NSLog(@"file exist:%@", [path stringValue]);
-            LevelDB *db = [LevelDB defaultLevelDB];
-            [db setInt:1 forKey:rep.url.absoluteString];
+            PhotoMetaDB *db = [PhotoMetaDB instance];
+            [db addPhoto:rep.url.absoluteString cloudPath:path.stringValue];
             return;
         } else {
             file = [filesystem openFile:path error:&err];
@@ -132,9 +130,8 @@
     
     [file close];
 
-    LevelDB *db = [LevelDB defaultLevelDB];
-    [db setInt:1 forKey:rep.url.absoluteString];
-    [db setString:rep.url.absoluteString forKey:path.stringValue];
+    PhotoMetaDB *db = [PhotoMetaDB instance];
+    [db addPhoto:rep.url.absoluteString cloudPath:path.stringValue];
 }
 
 -(void)copyToCloud {

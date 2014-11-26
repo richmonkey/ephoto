@@ -105,10 +105,42 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="Cloud" id="KxF-MF-u63"/>
+                    <connections>
+                        <segue destination="NPG-4o-tZQ" kind="push" id="BIP-bs-f8x"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="UKn-en-fkA" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1208" y="561"/>
+        </scene>
+        <!--Cloud Selector View Controller-->
+        <scene sceneID="b4d-YC-oJf">
+            <objects>
+                <tableViewController storyboardIdentifier="CloudSelector" id="NPG-4o-tZQ" customClass="CloudSelectorViewController" sceneMemberID="viewController">
+                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="fT5-Fn-70i">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <prototypes>
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="aF9-49-TLa">
+                                <rect key="frame" x="0.0" y="86" width="320" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="aF9-49-TLa" id="fzh-1k-6fw">
+                                    <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="NPG-4o-tZQ" id="hTH-5M-G9t"/>
+                            <outlet property="delegate" destination="NPG-4o-tZQ" id="jdh-UM-f9m"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" id="RuC-zP-4nW"/>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="rmj-VM-XJI" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1667" y="561"/>
         </scene>
         <!--Navigation Controller - Cloud-->
         <scene sceneID="ZBP-0V-RvM">

@@ -43,6 +43,8 @@
 		6D41B3591A24890A00DC79FF /* NSString+Base64.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D41B3551A24890A00DC79FF /* NSString+Base64.m */; };
 		6D41B35C1A248A1300DC79FF /* AES.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D41B35B1A248A1300DC79FF /* AES.m */; };
 		6D41B35F1A248F6200DC79FF /* ImageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D41B35E1A248F6200DC79FF /* ImageViewController.m */; };
+		6D41B3621A2581F600DC79FF /* CloudSelectorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D41B3611A2581F600DC79FF /* CloudSelectorViewController.m */; };
+		6D41B3651A25870100DC79FF /* PhotoMetaDB.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D41B3641A25870100DC79FF /* PhotoMetaDB.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -124,6 +126,10 @@
 		6D41B35B1A248A1300DC79FF /* AES.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AES.m; sourceTree = "<group>"; };
 		6D41B35D1A248F6200DC79FF /* ImageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageViewController.h; sourceTree = "<group>"; };
 		6D41B35E1A248F6200DC79FF /* ImageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageViewController.m; sourceTree = "<group>"; };
+		6D41B3601A2581F600DC79FF /* CloudSelectorViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CloudSelectorViewController.h; sourceTree = "<group>"; };
+		6D41B3611A2581F600DC79FF /* CloudSelectorViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CloudSelectorViewController.m; sourceTree = "<group>"; };
+		6D41B3631A25870100DC79FF /* PhotoMetaDB.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhotoMetaDB.h; sourceTree = "<group>"; };
+		6D41B3641A25870100DC79FF /* PhotoMetaDB.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhotoMetaDB.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -213,6 +219,8 @@
 				6D41B32A1A237F8100DC79FF /* UIImage+Resize.m */,
 				6D41B2F81A232A9300DC79FF /* CloudViewController.h */,
 				6D41B2F91A232A9300DC79FF /* CloudViewController.m */,
+				6D41B3601A2581F600DC79FF /* CloudSelectorViewController.h */,
+				6D41B3611A2581F600DC79FF /* CloudSelectorViewController.m */,
 				6D41B32C1A2380D800DC79FF /* MainTabBarController.h */,
 				6D41B32D1A2380D800DC79FF /* MainTabBarController.m */,
 				6D41B32F1A23856900DC79FF /* LoginViewController.h */,
@@ -221,6 +229,8 @@
 				6D41B35E1A248F6200DC79FF /* ImageViewController.m */,
 				6D41B3341A2389A700DC79FF /* SecretKey.h */,
 				6D41B3351A2389A700DC79FF /* SecretKey.m */,
+				6D41B3631A25870100DC79FF /* PhotoMetaDB.h */,
+				6D41B3641A25870100DC79FF /* PhotoMetaDB.m */,
 				6D41B3471A244AD000DC79FF /* LevelDB.h */,
 				6D41B3481A244AD000DC79FF /* LevelDB.mm */,
 				6D41B35A1A248A1300DC79FF /* AES.h */,
@@ -398,6 +408,8 @@
 				6D41B2FA1A232A9300DC79FF /* CloudViewController.m in Sources */,
 				6D41B32E1A2380D800DC79FF /* MainTabBarController.m in Sources */,
 				6D41B3561A24890A00DC79FF /* AESCrypt.m in Sources */,
+				6D41B3651A25870100DC79FF /* PhotoMetaDB.m in Sources */,
+				6D41B3621A2581F600DC79FF /* CloudSelectorViewController.m in Sources */,
 				6D41B2F11A232A9300DC79FF /* AppDelegate.m in Sources */,
 				6D41B3581A24890A00DC79FF /* NSData+CommonCrypto.m in Sources */,
 				6D41B3491A244AD000DC79FF /* LevelDB.mm in Sources */,

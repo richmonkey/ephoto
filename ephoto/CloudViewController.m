@@ -13,7 +13,8 @@
 #import "AES.h"
 #import "SecretKey.h"
 #import "ImageViewController.h"
-#import "LevelDB.h"
+#import "CloudSelectorViewController.h"
+#import "PhotoMetaDB.h"
 
 @interface CloudViewController ()
 @property(nonatomic)NSMutableDictionary *imageDict;
@@ -56,6 +57,11 @@
     } else {
         NSLog(@"account unlinked");
     }
+    
+    UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithTitle:@"add" style:UIBarButtonItemStylePlain
+                                                            target:self action:@selector(copyToLocal)];
+    self.navigationItem.rightBarButtonItem = item;
+    
 }
 
 - (void)didReceiveMemoryWarning
@@ -64,6 +70,14 @@
     // Dispose of any resources that can be recreated.
 }
 
+-(void)copyToLocal {
+    NSLog(@"copy to local");
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    CloudSelectorViewController *controller = [storyboard instantiateViewControllerWithIdentifier:@"CloudSelector"];
+    controller.imageArray = self.imageArray;
+    controller.cache = self.cache;
+    [self.navigationController pushViewController:controller animated:YES];
+}
 
 -(void)onClick:(UIButton*)sender {
     NSLog(@"tag:%d", sender.tag);
@@ -244,12 +258,8 @@
     //removed
     for (NSString *key in removedSet) {
         [self.imageDict removeObjectForKey:key];
-        LevelDB *db = [LevelDB defaultLevelDB];
-        NSString *url = [db stringForKey:key];
-        if (url.length > 0) {
-            [db removeValueForKey:url];
-            [db removeValueForKey:key];
-        }
+        PhotoMetaDB *db = [PhotoMetaDB instance];
+        [db removeCloudPhoto:key];
         NSLog(@"file %@ removed", key);
     }
     self.imageArray = [self.imageDict allValues];

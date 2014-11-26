@@ -12,7 +12,7 @@
 #import "ImageTableViewCell.h"
 #import "SelectorViewController.h"
 #import "ImageViewController.h"
-
+#import "PhotoMetaDB.h"
 
 @interface LocalViewController ()
 @property(nonatomic)ALAssetsLibrary *library;
@@ -34,8 +34,7 @@
     UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithTitle:@"add" style:UIBarButtonItemStylePlain
                                                             target:self action:@selector(copyToCloud)];
     self.navigationItem.rightBarButtonItem = item;
-    self.tableView.dataSource = self;
-    self.tableView.delegate = self;
+
 
     [self listImages];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleAssetChangedNotifiation:)
@@ -86,6 +85,18 @@
         } else {
             self.assets = assets;
             self.library = library;
+            
+            PhotoMetaDB *db = [PhotoMetaDB instance];
+            NSArray *photos = [db getPhotoList];
+            NSLog(@"photos:%@", photos);
+            NSMutableSet *set = [NSMutableSet setWithArray:photos];
+            for (ALAsset *asset in self.assets) {
+                [set removeObject:[asset defaultRepresentation].url.absoluteString];
+            }
+            for (NSString *url in set) {
+                NSLog(@"remove local photo:%@", url);
+                [db removeLocalPhoto:url];
+            }
             [self.tableView reloadData];
         }
     };

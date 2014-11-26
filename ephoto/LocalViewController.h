@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface LocalViewController : UITableViewController<UITableViewDataSource, UITableViewDelegate>
+@interface LocalViewController : UITableViewController
 
 @end

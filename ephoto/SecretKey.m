@@ -7,6 +7,7 @@
 //
 
 #import "SecretKey.h"
+#import "LevelDB.h"
 
 @implementation SecretKey
 +(SecretKey*)instance {
@@ -26,12 +27,12 @@
     return [NSString stringWithFormat:@"%@/secret.key", documentsDirectory];
 }
 -(void)save {
-    NSDictionary *dict = [NSDictionary dictionaryWithObject:self.key forKey:@"key"];
-    [dict writeToFile:[self keyPath] atomically:YES];
+    LevelDB *db = [LevelDB defaultLevelDB];
+    [db setString:self.key forKey:@"secret_key"];
 }
 
 -(void)load {
-    NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithContentsOfFile:[self keyPath]];
-    self.key = [dict objectForKey:@"key"];
+    LevelDB *db = [LevelDB defaultLevelDB];
+    self.key = [db stringForKey:@"secret_key"];
 }
 @end
