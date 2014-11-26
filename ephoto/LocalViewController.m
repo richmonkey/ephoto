@@ -13,6 +13,7 @@
 #import "SelectorViewController.h"
 #import "ImageViewController.h"
 
+
 @interface LocalViewController ()
 @property(nonatomic)ALAssetsLibrary *library;
 @property(nonatomic)NSArray *assets;
@@ -35,7 +36,10 @@
     self.navigationItem.rightBarButtonItem = item;
     self.tableView.dataSource = self;
     self.tableView.delegate = self;
+
     [self listImages];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleAssetChangedNotifiation:)
+                                                 name:ALAssetsLibraryChangedNotification object:nil];
     NSLog(@"local view");
 }
 
@@ -45,19 +49,27 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (void) handleAssetChangedNotifiation:(NSNotification *)notification
+{
+    NSLog(@"notification: %@", notification);
+    
+    [self listImages];
+    
+}
 -(void)copyToCloud {
     NSLog(@"copy to cloud");
     
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     SelectorViewController *controller = [storyboard instantiateViewControllerWithIdentifier:@"Selector"];
     controller.assets = self.assets;
+    controller.library = self.library;
     [self.navigationController pushViewController:controller animated:YES];
 }
 
 - (void)listImages {
     
     NSMutableArray* assets = [[NSMutableArray alloc] init];
-    
+
     ALAssetsLibrary *library = [[ALAssetsLibrary alloc] init];
     
     void (^assetEnumerator)( ALAsset *, NSUInteger, BOOL *) = ^(ALAsset *result, NSUInteger index, BOOL *stop) {
@@ -72,8 +84,8 @@
             [group enumerateAssetsUsingBlock:assetEnumerator];
             [assetGroups addObject:group];
         } else {
-            self.library = library;
             self.assets = assets;
+            self.library = library;
             [self.tableView reloadData];
         }
     };
@@ -159,7 +171,6 @@
     } else {
         cell.v4.hidden = YES;
     }
-
     return cell;
 }
 

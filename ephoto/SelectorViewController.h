@@ -7,8 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <AssetsLibrary/AssetsLibrary.h>
 
 @interface SelectorViewController : UITableViewController
 @property(nonatomic) NSArray *assets;
-
+@property(nonatomic) ALAssetsLibrary *library;
 @end
