@@ -11,10 +11,13 @@
 @interface PhotoMetaDB : NSObject
 +(PhotoMetaDB*)instance;
 
--(NSArray*)getPhotoList;
+-(NSArray*)getLocalPhotoList;
+-(NSArray*)getCloudPhotoList;
 
--(void)addPhoto:(NSString*)url cloudPath:(NSString*)cloudPath;
+-(void)addCloudPhoto:(NSString*)cloudPath;
 -(void)removeCloudPhoto:(NSString*)cloudPath;
+
+-(void)addLocalPhoto:(NSString*)url cloudPath:(NSString*)cloudPath;
 -(void)removeLocalPhoto:(NSString*)url;
 
 -(BOOL)isExistInCloud:(NSString*)url;

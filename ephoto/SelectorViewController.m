@@ -102,8 +102,6 @@
     if (info) {
         if (info.size == [edata length]) {
             NSLog(@"file exist:%@", [path stringValue]);
-            PhotoMetaDB *db = [PhotoMetaDB instance];
-            [db addPhoto:rep.url.absoluteString cloudPath:path.stringValue];
             return;
         } else {
             file = [filesystem openFile:path error:&err];
@@ -129,9 +127,6 @@
     }
     
     [file close];
-
-    PhotoMetaDB *db = [PhotoMetaDB instance];
-    [db addPhoto:rep.url.absoluteString cloudPath:path.stringValue];
 }
 
 -(void)copyToCloud {

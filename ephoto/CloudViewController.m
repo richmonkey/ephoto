@@ -17,7 +17,6 @@
 #import "PhotoMetaDB.h"
 
 @interface CloudViewController ()
-@property(nonatomic)NSMutableDictionary *imageDict;
 @property(nonatomic)NSArray *imageArray;
 @property(nonatomic)NSCache *cache;
 @end
@@ -27,7 +26,6 @@
 -(id)initWithCoder:(NSCoder *)aDecoder {
     self = [super initWithCoder:aDecoder];
     if (self) {
-        self.imageDict = [NSMutableDictionary dictionary];
         self.cache = [[NSCache alloc] init];
     }
     return self;
@@ -51,6 +49,7 @@
     
     if (account) {
         [self setupFS:account];
+        NSLog(@"linked accout:%@", account);
         if ([DBFilesystem sharedFilesystem].completedFirstSync) {
             [self listImages];
         }
@@ -226,11 +225,14 @@
 
     [filesystem addObserver:self forPathAndChildren:newPath block:^{
         NSLog(@"filesystem changed");
-        [self listImages];
+        if ([DBFilesystem sharedFilesystem].completedFirstSync) {
+            [self listImages];
+        }
     }];
 }
 
 -(void)listImages {
+    NSLog(@"list cloud image");
     DBPath *newPath = [[DBPath root] childPath:@"images"];
     DBFilesystem *filesystem = [DBFilesystem sharedFilesystem];
     DBError *error;
@@ -240,29 +242,26 @@
         return;
     }
     
-    NSMutableSet *removedSet = [NSMutableSet setWithArray:[self.imageDict allKeys]];
-    for (DBFileInfo *info in array) {
-        DBFileInfo *oldInfo = [self.imageDict objectForKey:info.path.stringValue];
-        if (!oldInfo) {
-            [self.imageDict setObject:info forKey:info.path.stringValue];
-            NSLog(@"file %@ added", info.path.stringValue);
-        } else if (![info.modifiedTime isEqualToDate:oldInfo.modifiedTime]) {
-            [self.imageDict setObject:info forKey:info.path.stringValue];
-            NSLog(@"file %@ updated", info.path.stringValue);
-        } else {
-            NSLog(@"file %@ unchanged", info.path.stringValue);
-        }
-        [removedSet removeObject:info.path.stringValue];
-    }
+    self.imageArray = array;
 
-    //removed
-    for (NSString *key in removedSet) {
-        [self.imageDict removeObjectForKey:key];
-        PhotoMetaDB *db = [PhotoMetaDB instance];
-        [db removeCloudPhoto:key];
-        NSLog(@"file %@ removed", key);
+    PhotoMetaDB *db = [PhotoMetaDB instance];
+    NSArray *photos = [db getCloudPhotoList];
+    NSLog(@"cloud photos:%@", photos);
+    NSMutableSet *set = [NSMutableSet setWithArray:photos];
+    for (DBFileInfo *info in self.imageArray) {
+        if ([set containsObject:info.path.stringValue]) {
+            [set removeObject:info.path.stringValue];
+        } else {
+            [db addCloudPhoto:info.path.stringValue];
+            NSLog(@"cloud photo added:%@", info.path.stringValue);
+        }
     }
-    self.imageArray = [self.imageDict allValues];
+    //removed
+    for (NSString *path in set) {
+        [db removeCloudPhoto:path];
+        NSLog(@"cloud photo removed:%@", path);
+    }
+    
     [self.tableView reloadData];
     
 }

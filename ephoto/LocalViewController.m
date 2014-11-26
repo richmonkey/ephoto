@@ -9,6 +9,7 @@
 #import "LocalViewController.h"
 #import <AssetsLibrary/AssetsLibrary.h>
 #import <CommonCrypto/CommonDigest.h>
+#import <Dropbox/Dropbox.h>
 #import "ImageTableViewCell.h"
 #import "SelectorViewController.h"
 #import "ImageViewController.h"
@@ -65,6 +66,37 @@
     [self.navigationController pushViewController:controller animated:YES];
 }
 
+-(NSString *)md5:(NSData *)data {
+    unsigned char digest[16];
+    CC_MD5( [data bytes], [data length], digest );
+    
+    NSMutableString *output = [NSMutableString stringWithCapacity:CC_MD5_DIGEST_LENGTH * 2];
+    
+    for(int i = 0; i < CC_MD5_DIGEST_LENGTH; i++)
+        [output appendFormat:@"%02x", digest[i]];
+    
+    return  output;
+}
+
+
+-(DBPath*)imageCloudPath:(ALAssetRepresentation*)rep {
+    int size = (int)[rep size];
+    NSMutableData *data = [NSMutableData dataWithLength:size];
+    
+    void *p = [data mutableBytes];
+    NSError *error;
+    int r = [rep getBytes:p fromOffset:0 length:size error:&error];
+    if (r == 0) {
+        NSLog(@"byte zero:%@ size:%d", error, size);
+        return nil;
+    }
+
+    NSString *md5 = [self md5:data];
+    DBPath *path = [[DBPath root] childPath:@"images"];
+    path = [path childPath:md5];
+    return path;
+}
+
 - (void)listImages {
     
     NSMutableArray* assets = [[NSMutableArray alloc] init];
@@ -87,11 +119,18 @@
             self.library = library;
             
             PhotoMetaDB *db = [PhotoMetaDB instance];
-            NSArray *photos = [db getPhotoList];
-            NSLog(@"photos:%@", photos);
+            NSArray *photos = [db getLocalPhotoList];
+            NSLog(@"local photos:%@", photos);
             NSMutableSet *set = [NSMutableSet setWithArray:photos];
             for (ALAsset *asset in self.assets) {
-                [set removeObject:[asset defaultRepresentation].url.absoluteString];
+                ALAssetRepresentation *rep = [asset defaultRepresentation];
+                if ([set containsObject:rep.url.absoluteString]) {
+                    [set removeObject:rep.url.absoluteString];
+                } else {
+                    DBPath *path = [self imageCloudPath:rep];
+                    [db addLocalPhoto:rep.url.absoluteString cloudPath:path.stringValue];
+                    NSLog(@"add local photo url:%@ cloud path:%@", rep.url.absoluteString, path.stringValue);
+                }
             }
             for (NSString *url in set) {
                 NSLog(@"remove local photo:%@", url);

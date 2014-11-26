@@ -71,7 +71,6 @@
 
 -(void)copyToLocal {
     ALAssetsLibrary *library = [[ALAssetsLibrary alloc] init];
-    PhotoMetaDB *db = [PhotoMetaDB instance];
     for (CloudSelImage *image in self.images) {
         if (!image.selected) {
             continue;
@@ -85,8 +84,6 @@
                               completionBlock:^(NSURL *assetURL, NSError *error) {
                                   if (error) {
                                       NSLog(@"save photo error:%@", error);
-                                  } else {
-                                      [db addPhoto:assetURL.absoluteString cloudPath:image.info.path.stringValue];
                                   }
                               }
          ];
