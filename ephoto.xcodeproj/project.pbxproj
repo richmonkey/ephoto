@@ -353,6 +353,9 @@
 				LastUpgradeCheck = 0510;
 				ORGANIZATIONNAME = beetle;
 				TargetAttributes = {
+					6D41B2DC1A232A9300DC79FF = {
+						DevelopmentTeam = HB5A8TLKYL;
+					};
 					6D41B3001A232A9300DC79FF = {
 						TestTargetID = 6D41B2DC1A232A9300DC79FF;
 					};
@@ -546,6 +549,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer: Zhifeng Zhou (PV548P44SL)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Zhifeng Zhou (PV548P44SL)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -558,7 +563,9 @@
 					"$(PROJECT_DIR)/ephoto/leveldb",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "5e9cc833-01d9-40bc-a839-b6079c655be4";
 				USER_HEADER_SEARCH_PATHS = ephoto;
+				VALID_ARCHS = "arm64 armv7";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -568,6 +575,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Zhifeng Zhou (HB5A8TLKYL)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Zhifeng Zhou (HB5A8TLKYL)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -580,7 +589,9 @@
 					"$(PROJECT_DIR)/ephoto/leveldb",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "335f4d02-5aeb-4d73-ac05-0b76a4e66c25";
 				USER_HEADER_SEARCH_PATHS = ephoto;
+				VALID_ARCHS = "arm64 armv7";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
