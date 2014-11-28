@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		48BAE4191A26C65700B05E00 /* SecretViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 48BAE4181A26C65700B05E00 /* SecretViewController.m */; };
 		6D41B2E11A232A9300DC79FF /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6D41B2E01A232A9300DC79FF /* Foundation.framework */; };
 		6D41B2E31A232A9300DC79FF /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6D41B2E21A232A9300DC79FF /* CoreGraphics.framework */; };
 		6D41B2E51A232A9300DC79FF /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6D41B2E41A232A9300DC79FF /* UIKit.framework */; };
@@ -58,6 +59,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		48BAE4171A26C65700B05E00 /* SecretViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SecretViewController.h; sourceTree = "<group>"; };
+		48BAE4181A26C65700B05E00 /* SecretViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SecretViewController.m; sourceTree = "<group>"; };
 		6D41B2DD1A232A9300DC79FF /* ephoto.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ephoto.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6D41B2E01A232A9300DC79FF /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		6D41B2E21A232A9300DC79FF /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -209,6 +212,10 @@
 				6D41B2EF1A232A9300DC79FF /* AppDelegate.h */,
 				6D41B2F01A232A9300DC79FF /* AppDelegate.m */,
 				6D41B2F21A232A9300DC79FF /* Main.storyboard */,
+				6D41B32F1A23856900DC79FF /* LoginViewController.h */,
+				6D41B3301A23856900DC79FF /* LoginViewController.m */,
+				48BAE4171A26C65700B05E00 /* SecretViewController.h */,
+				48BAE4181A26C65700B05E00 /* SecretViewController.m */,
 				6D41B3261A237C8300DC79FF /* ImageTableViewCell.h */,
 				6D41B3271A237C8300DC79FF /* ImageTableViewCell.m */,
 				6D41B2F51A232A9300DC79FF /* LocalViewController.h */,
@@ -223,8 +230,6 @@
 				6D41B3611A2581F600DC79FF /* CloudSelectorViewController.m */,
 				6D41B32C1A2380D800DC79FF /* MainTabBarController.h */,
 				6D41B32D1A2380D800DC79FF /* MainTabBarController.m */,
-				6D41B32F1A23856900DC79FF /* LoginViewController.h */,
-				6D41B3301A23856900DC79FF /* LoginViewController.m */,
 				6D41B35D1A248F6200DC79FF /* ImageViewController.h */,
 				6D41B35E1A248F6200DC79FF /* ImageViewController.m */,
 				6D41B3341A2389A700DC79FF /* SecretKey.h */,
@@ -409,6 +414,7 @@
 				6D41B32E1A2380D800DC79FF /* MainTabBarController.m in Sources */,
 				6D41B3561A24890A00DC79FF /* AESCrypt.m in Sources */,
 				6D41B3651A25870100DC79FF /* PhotoMetaDB.m in Sources */,
+				48BAE4191A26C65700B05E00 /* SecretViewController.m in Sources */,
 				6D41B3621A2581F600DC79FF /* CloudSelectorViewController.m in Sources */,
 				6D41B2F11A232A9300DC79FF /* AppDelegate.m in Sources */,
 				6D41B3581A24890A00DC79FF /* NSData+CommonCrypto.m in Sources */,
@@ -506,6 +512,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
+				VALID_ARCHS = "armv7 armv7s";
 			};
 			name = Debug;
 		};
@@ -538,6 +545,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
+				VALID_ARCHS = "armv7 armv7s";
 			};
 			name = Release;
 		};
@@ -559,6 +567,7 @@
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				USER_HEADER_SEARCH_PATHS = ephoto;
+				VALID_ARCHS = "armv7 armv7s";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -581,6 +590,7 @@
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				USER_HEADER_SEARCH_PATHS = ephoto;
+				VALID_ARCHS = "armv7 armv7s";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

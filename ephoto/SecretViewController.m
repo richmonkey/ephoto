@@ -1,25 +1,27 @@
 //
-//  LoginViewController.m
+//  SecretViewController.m
 //  ephoto
 //
-//  Created by houxh on 14-11-24.
+//  Created by 杨朋亮 on 27/11/14.
 //  Copyright (c) 2014年 beetle. All rights reserved.
 //
 
-#import "LoginViewController.h"
+#import "SecretViewController.h"
+
+#import "SecretViewController.h"
 #import <Dropbox/Dropbox.h>
 #import "SecretKey.h"
 #import "MainTabBarController.h"
 #import "AppDelegate.h"
 
-@interface LoginViewController ()
+@interface SecretViewController ()
 
 @property (weak, nonatomic) IBOutlet UIButton *dropboxButton;
-@property (weak, nonatomic) IBOutlet UIButton *nextButton;
+@property (weak, nonatomic) IBOutlet UITextField *keyTextField;
 @property(nonatomic) DBAccount *account;
 @end
 
-@implementation LoginViewController
+@implementation SecretViewController
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -33,8 +35,6 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
-    [self.nextButton setHidden:YES];
     
     DBAccountManager *manager = [DBAccountManager sharedManager];
     DBAccount *account = [manager linkedAccount];
@@ -56,10 +56,9 @@
             [self.dropboxButton setTitle:account.info.displayName forState:UIControlStateDisabled];
         }
         self.dropboxButton.enabled = NO;
-        [self.nextButton setHidden:NO];
         self.account = account;
         
-        __weak LoginViewController *wself = self;
+        __weak SecretViewController *wself = self;
         [self.account addObserver:self block:^{
             if (wself.account.isLinked && [wself.account.info.displayName length] > 0) {
                 [wself.dropboxButton setTitle:account.info.displayName forState:UIControlStateNormal];
@@ -67,9 +66,9 @@
             }
         }];
     }
-
-
-    __weak LoginViewController *wself = self;
+    
+    
+    __weak SecretViewController *wself = self;
     [manager addObserver:self block:^(DBAccount* account) {
         NSLog(@"account changed:%@", account.info.displayName);
         if (account && account.isLinked) {
@@ -77,7 +76,6 @@
                 [wself.dropboxButton setTitle:account.info.displayName forState:UIControlStateNormal];
                 [wself.dropboxButton setTitle:account.info.displayName forState:UIControlStateDisabled];
             }
-            [wself.nextButton setHidden:NO];
             wself.dropboxButton.enabled = NO;
             
             if (wself.account != account) {
@@ -93,7 +91,34 @@
             }
         }
     }];
+    
+}
 
+- (IBAction)confirm:(id)sender {
+    if ([self.keyTextField.text length] < 6) {
+        return;
+    }
+    
+    DBAccountManager *manager = [DBAccountManager sharedManager];
+    DBAccount *account = [manager linkedAccount];
+    if (!account || !account.isLinked) {
+        NSLog(@"no account linked");
+        return;
+    }
+    
+    DBFilesystem *filesystem = [[DBFilesystem alloc] initWithAccount:account];
+    [DBFilesystem setSharedFilesystem:filesystem];
+    
+    [SecretKey instance].key = self.keyTextField.text;
+    [[SecretKey instance] save];
+    
+    [manager removeObserver:self];
+    [self.account removeObserver:self];
+    
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    MainTabBarController *main = [storyboard instantiateViewControllerWithIdentifier:@"Main"];
+    AppDelegate *delegate = [UIApplication sharedApplication].delegate;
+    delegate.window.rootViewController = main;
 }
 
 - (IBAction)linkDropbox:(id)sender {
@@ -103,11 +128,5 @@
         [manager linkFromController:self];
     }
 }
-
-- (IBAction)nextAction:(id)sender{
-    
-    
-}
-
 
 @end
