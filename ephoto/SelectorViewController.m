@@ -12,9 +12,9 @@
 #import <CommonCrypto/CommonDigest.h>
 #import "LevelDB.h"
 #import <Dropbox/Dropbox.h>
-#import "AES.h"
 #import "SecretKey.h"
 #import "PhotoMetaDB.h"
+#import "EPhoto.h"
 
 @interface SelImage : NSObject
 
@@ -63,76 +63,10 @@
     self.images = images;
 }
 
--(NSString *)md5:(NSData *)data {
-    unsigned char digest[16];
-    CC_MD5( [data bytes], [data length], digest );
-    
-    NSMutableString *output = [NSMutableString stringWithCapacity:CC_MD5_DIGEST_LENGTH * 2];
-    
-    for(int i = 0; i < CC_MD5_DIGEST_LENGTH; i++)
-        [output appendFormat:@"%02x", digest[i]];
-    
-    return  output;
-}
-
--(void)copyFile:(ALAsset*)asset {
-    ALAssetRepresentation *rep = [asset defaultRepresentation];
-    int size = (int)[rep size];
-    NSMutableData *data = [NSMutableData dataWithLength:size];
-    
-    void *p = [data mutableBytes];
-    NSError *error;
-    int r = [rep getBytes:p fromOffset:0 length:size error:&error];
-    if (r == 0) {
-        NSLog(@"byte zero:%@ size:%d", error, size);
-        return;
-    }
-    
-    DBFilesystem *filesystem = [DBFilesystem sharedFilesystem];
-    NSString *md5 = [self md5:data];
-    DBPath *path = [[DBPath root] childPath:@"images"];
-    path = [path childPath:md5];
-    
-    SecretKey *key = [SecretKey instance];
-    NSData *edata = [AES encrypt:data password:key.key];
-    
-    DBFile *file;
-    DBError *err;
-    DBFileInfo *info = [filesystem fileInfoForPath:path error:&err];
-    if (info) {
-        if (info.size == [edata length]) {
-            NSLog(@"file exist:%@", [path stringValue]);
-            return;
-        } else {
-            file = [filesystem openFile:path error:&err];
-            if (!file) {
-                NSLog(@"open file error:%@", err);
-                return;
-            }
-            NSLog(@"open old file:%@", path.stringValue);
-        }
-    } else {
-        file = [filesystem createFile:path error:&err];
-        if (!file) {
-            NSLog(@"create file error:%@", err);
-            return;
-        }
-        NSLog(@"create file:%@", path.stringValue);
-    }
-    
-    BOOL res = [file writeData:edata error:nil];
-    if (!res) {
-        NSLog(@"write file error");
-        return;
-    }
-    
-    [file close];
-}
-
 -(void)copyToCloud {
     for (SelImage *image in self.images) {
         if (image.selected) {
-            [self copyFile:image.asset];
+            [EPhoto copyFile:image.asset];
         }
     }
     [self.navigationController popViewControllerAnimated:YES];

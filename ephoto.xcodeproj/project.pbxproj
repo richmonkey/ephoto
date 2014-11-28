@@ -42,10 +42,11 @@
 		6D41B3571A24890A00DC79FF /* NSData+Base64.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D41B3511A24890A00DC79FF /* NSData+Base64.m */; };
 		6D41B3581A24890A00DC79FF /* NSData+CommonCrypto.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D41B3531A24890A00DC79FF /* NSData+CommonCrypto.m */; };
 		6D41B3591A24890A00DC79FF /* NSString+Base64.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D41B3551A24890A00DC79FF /* NSString+Base64.m */; };
-		6D41B35C1A248A1300DC79FF /* AES.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D41B35B1A248A1300DC79FF /* AES.m */; };
 		6D41B35F1A248F6200DC79FF /* ImageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D41B35E1A248F6200DC79FF /* ImageViewController.m */; };
 		6D41B3621A2581F600DC79FF /* CloudSelectorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D41B3611A2581F600DC79FF /* CloudSelectorViewController.m */; };
 		6D41B3651A25870100DC79FF /* PhotoMetaDB.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D41B3641A25870100DC79FF /* PhotoMetaDB.m */; };
+		6D41B3681A28117300DC79FF /* EPhoto.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D41B3671A28117300DC79FF /* EPhoto.m */; };
+		6D41B36B1A281D1400DC79FF /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D41B36A1A281D1400DC79FF /* MBProgressHUD.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -125,14 +126,16 @@
 		6D41B3531A24890A00DC79FF /* NSData+CommonCrypto.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSData+CommonCrypto.m"; sourceTree = "<group>"; };
 		6D41B3541A24890A00DC79FF /* NSString+Base64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Base64.h"; sourceTree = "<group>"; };
 		6D41B3551A24890A00DC79FF /* NSString+Base64.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+Base64.m"; sourceTree = "<group>"; };
-		6D41B35A1A248A1300DC79FF /* AES.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AES.h; sourceTree = "<group>"; };
-		6D41B35B1A248A1300DC79FF /* AES.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AES.m; sourceTree = "<group>"; };
 		6D41B35D1A248F6200DC79FF /* ImageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageViewController.h; sourceTree = "<group>"; };
 		6D41B35E1A248F6200DC79FF /* ImageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageViewController.m; sourceTree = "<group>"; };
 		6D41B3601A2581F600DC79FF /* CloudSelectorViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CloudSelectorViewController.h; sourceTree = "<group>"; };
 		6D41B3611A2581F600DC79FF /* CloudSelectorViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CloudSelectorViewController.m; sourceTree = "<group>"; };
 		6D41B3631A25870100DC79FF /* PhotoMetaDB.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhotoMetaDB.h; sourceTree = "<group>"; };
 		6D41B3641A25870100DC79FF /* PhotoMetaDB.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhotoMetaDB.m; sourceTree = "<group>"; };
+		6D41B3661A28117300DC79FF /* EPhoto.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EPhoto.h; sourceTree = "<group>"; };
+		6D41B3671A28117300DC79FF /* EPhoto.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EPhoto.m; sourceTree = "<group>"; };
+		6D41B3691A281D1400DC79FF /* MBProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBProgressHUD.h; sourceTree = "<group>"; };
+		6D41B36A1A281D1400DC79FF /* MBProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBProgressHUD.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -222,8 +225,6 @@
 				6D41B2F61A232A9300DC79FF /* LocalViewController.m */,
 				6D41B34A1A2451DF00DC79FF /* SelectorViewController.h */,
 				6D41B34B1A2451DF00DC79FF /* SelectorViewController.m */,
-				6D41B3291A237F8100DC79FF /* UIImage+Resize.h */,
-				6D41B32A1A237F8100DC79FF /* UIImage+Resize.m */,
 				6D41B2F81A232A9300DC79FF /* CloudViewController.h */,
 				6D41B2F91A232A9300DC79FF /* CloudViewController.m */,
 				6D41B3601A2581F600DC79FF /* CloudSelectorViewController.h */,
@@ -238,8 +239,12 @@
 				6D41B3641A25870100DC79FF /* PhotoMetaDB.m */,
 				6D41B3471A244AD000DC79FF /* LevelDB.h */,
 				6D41B3481A244AD000DC79FF /* LevelDB.mm */,
-				6D41B35A1A248A1300DC79FF /* AES.h */,
-				6D41B35B1A248A1300DC79FF /* AES.m */,
+				6D41B3661A28117300DC79FF /* EPhoto.h */,
+				6D41B3671A28117300DC79FF /* EPhoto.m */,
+				6D41B3691A281D1400DC79FF /* MBProgressHUD.h */,
+				6D41B36A1A281D1400DC79FF /* MBProgressHUD.m */,
+				6D41B3291A237F8100DC79FF /* UIImage+Resize.h */,
+				6D41B32A1A237F8100DC79FF /* UIImage+Resize.m */,
 				6D41B2FB1A232A9300DC79FF /* Images.xcassets */,
 				6D41B2E71A232A9300DC79FF /* Supporting Files */,
 			);
@@ -358,6 +363,9 @@
 				LastUpgradeCheck = 0510;
 				ORGANIZATIONNAME = beetle;
 				TargetAttributes = {
+					6D41B2DC1A232A9300DC79FF = {
+						DevelopmentTeam = HB5A8TLKYL;
+					};
 					6D41B3001A232A9300DC79FF = {
 						TestTargetID = 6D41B2DC1A232A9300DC79FF;
 					};
@@ -416,11 +424,12 @@
 				6D41B3651A25870100DC79FF /* PhotoMetaDB.m in Sources */,
 				48BAE4191A26C65700B05E00 /* SecretViewController.m in Sources */,
 				6D41B3621A2581F600DC79FF /* CloudSelectorViewController.m in Sources */,
+				6D41B36B1A281D1400DC79FF /* MBProgressHUD.m in Sources */,
 				6D41B2F11A232A9300DC79FF /* AppDelegate.m in Sources */,
 				6D41B3581A24890A00DC79FF /* NSData+CommonCrypto.m in Sources */,
 				6D41B3491A244AD000DC79FF /* LevelDB.mm in Sources */,
+				6D41B3681A28117300DC79FF /* EPhoto.m in Sources */,
 				6D41B3281A237C8300DC79FF /* ImageTableViewCell.m in Sources */,
-				6D41B35C1A248A1300DC79FF /* AES.m in Sources */,
 				6D41B35F1A248F6200DC79FF /* ImageViewController.m in Sources */,
 				6D41B3591A24890A00DC79FF /* NSString+Base64.m in Sources */,
 				6D41B2F71A232A9300DC79FF /* LocalViewController.m in Sources */,
@@ -554,6 +563,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer: Zhifeng Zhou (PV548P44SL)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Zhifeng Zhou (PV548P44SL)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -566,6 +577,7 @@
 					"$(PROJECT_DIR)/ephoto/leveldb",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "5e9cc833-01d9-40bc-a839-b6079c655be4";
 				USER_HEADER_SEARCH_PATHS = ephoto;
 				VALID_ARCHS = "arm64 armv7";
 				WRAPPER_EXTENSION = app;
@@ -577,6 +589,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Zhifeng Zhou (HB5A8TLKYL)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Zhifeng Zhou (HB5A8TLKYL)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -589,6 +603,7 @@
 					"$(PROJECT_DIR)/ephoto/leveldb",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "335f4d02-5aeb-4d73-ac05-0b76a4e66c25";
 				USER_HEADER_SEARCH_PATHS = ephoto;
 				VALID_ARCHS = "arm64 armv7";
 				WRAPPER_EXTENSION = app;

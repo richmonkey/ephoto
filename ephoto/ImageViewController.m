@@ -27,10 +27,31 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    UIImageView *view = [[UIImageView alloc] initWithFrame:self.view.bounds];
+    
+    CGRect bounds = self.view.bounds;
+
+    //图片居中显示,保持原有宽高比例
+    float x, y, w, h;
+    if (self.image.size.height/self.image.size.width > bounds.size.height/bounds.size.width) {
+        w = bounds.size.height*(self.image.size.width/self.image.size.height);
+        h = bounds.size.width;
+        x = (bounds.size.width-w)/2;
+        y = 0;
+ 
+    } else {
+        h = bounds.size.width*(self.image.size.height/self.image.size.width);
+        w = bounds.size.width;
+        x = 0;
+        y = (bounds.size.height-h)/2;
+    }
+    CGRect frame = CGRectMake(x, y, w, h);
+    
+    UIImageView *view = [[UIImageView alloc] initWithFrame:frame];
     [self.view addSubview:view];
     self.imageView = view;
+    
     self.imageView.image = self.image;
+
 }
 
 - (void)didReceiveMemoryWarning

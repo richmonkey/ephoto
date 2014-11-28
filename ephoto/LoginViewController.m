@@ -11,6 +11,10 @@
 #import "SecretKey.h"
 #import "MainTabBarController.h"
 #import "AppDelegate.h"
+#import <AssetsLibrary/AssetsLibrary.h>
+#import "PhotoMetaDB.h"
+#import "EPhoto.h"
+#import "MBProgressHUD.h"
 
 @interface LoginViewController ()
 

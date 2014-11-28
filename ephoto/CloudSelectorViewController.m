@@ -10,10 +10,10 @@
 #import "ImageTableViewCell.h"
 #import <Dropbox/Dropbox.h>
 #import "SecretKey.h"
-#import "AES.h"
 #import "UIImage+Resize.h"
 #import "PhotoMetaDB.h"
 #import <AssetsLibrary/AssetsLibrary.h>
+#import "EPhoto.h"
 
 @interface CloudSelImage : NSObject
 
@@ -75,7 +75,7 @@
         if (!image.selected) {
             continue;
         }
-        UIImage *i = [self loadOriginImage:image.info];
+        UIImage *i = [EPhoto loadImage:image.info];
         if (i == nil) {
             continue;
         }
@@ -103,35 +103,13 @@
     [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:p] withRowAnimation:UITableViewRowAnimationNone];
 }
 
--(UIImage*)loadOriginImage:(DBFileInfo*)info {
-    DBFilesystem *filesystem = [DBFilesystem sharedFilesystem];
-    DBFile *file = [filesystem openFile:info.path error:nil];
-    if (file == nil) {
-        NSLog(@"open file error");
-        return nil;
-    }
-    NSData *data = [file readData:nil];
-    if (data == nil) {
-        NSLog(@"read file error");
-        return nil;
-    }
-    
-    SecretKey *key = [SecretKey instance];
-    NSData *ddata = [AES descrypt:data password:key.key];
-    UIImage *image = [UIImage imageWithData:ddata];
-    if (image == nil) {
-        NSLog(@"invalid file format");
-    }
-    return image;
-}
-
 - (UIImage*)loadImage:(DBFileInfo*)info {
     UIImage *image = [self.cache objectForKey:info.path.stringValue];
     if (image != nil) {
         return image;
     }
     
-    image = [self loadOriginImage:info];
+    image = [EPhoto loadImage:info];
     if (image == nil) {
         return nil;
     }
