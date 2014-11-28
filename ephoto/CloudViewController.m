@@ -10,11 +10,11 @@
 #import <Dropbox/Dropbox.h>
 #import "ImageTableViewCell.h"
 #import "UIImage+Resize.h"
-#import "AES.h"
 #import "SecretKey.h"
 #import "ImageViewController.h"
 #import "CloudSelectorViewController.h"
 #import "PhotoMetaDB.h"
+#import "EPhoto.h"
 
 @interface CloudViewController ()
 @property(nonatomic)NSArray *imageArray;
@@ -35,16 +35,8 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
+    NSLog(@"cloudviewcontroller did load");
     DBAccountManager *manager = [DBAccountManager sharedManager];
-    [manager addObserver:self block:^(DBAccount *account) {
-        NSLog(@"account changed:%@", account);
-        if (account) {
-            [self setupFS:account];
-            if ([DBFilesystem sharedFilesystem].completedFirstSync) {
-                [self listImages];
-            }
-        }
-    }];
     DBAccount *account = [manager linkedAccount];
     
     if (account) {
@@ -56,6 +48,7 @@
     } else {
         NSLog(@"account unlinked");
     }
+    NSLog(@"cloudviewcontroller did loaded");
     
     UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithTitle:@"add" style:UIBarButtonItemStylePlain
                                                             target:self action:@selector(copyToLocal)];
@@ -86,64 +79,30 @@
     }
     
     DBFileInfo *info = [self.imageArray objectAtIndex:index];
-    UIImage *image = [self loadFullScreenImage:info];
+    UIImage *image = [EPhoto loadImage:info];
+    if (!image) {
+        NSLog(@"can't load image from cache");
+        return;
+    }
     ImageViewController *c = [[ImageViewController alloc] init];
     c.image = image;
     [self.navigationController pushViewController:c animated:YES];
 }
 
--(UIImage*)loadFullScreenImage:(DBFileInfo*)info {
-    DBFilesystem *filesystem = [DBFilesystem sharedFilesystem];
-    DBFile *file = [filesystem openFile:info.path error:nil];
-    if (file == nil) {
-        NSLog(@"open file error");
-        return nil;
-    }
-    NSData *data = [file readData:nil];
-    if (data == nil) {
-        NSLog(@"read file error");
-        return nil;
-    }
-    
-    SecretKey *key = [SecretKey instance];
-    NSData *ddata = [AES descrypt:data password:key.key];
-    UIImage *image = [UIImage imageWithData:ddata];
-    if (image == nil) {
-        NSLog(@"invalid file format");
-        return nil;
-    }
-    
-    return image;
-
-}
 - (UIImage*)loadImage:(DBFileInfo*)info {
     UIImage *image = [self.cache objectForKey:info.path.stringValue];
     
     if (image != nil) {
         return image;
     }
-    DBFilesystem *filesystem = [DBFilesystem sharedFilesystem];
-    DBFile *file = [filesystem openFile:info.path error:nil];
-    if (file == nil) {
-        NSLog(@"open file error");
-        return nil;
-    }
-    NSData *data = [file readData:nil];
-    if (data == nil) {
-        NSLog(@"read file error");
-        return nil;
-    }
-    
-    SecretKey *key = [SecretKey instance];
-    NSData *ddata = [AES descrypt:data password:key.key];
-    image = [UIImage imageWithData:ddata];
+    image = [EPhoto loadImage:info];
     if (image == nil) {
-        NSLog(@"invalid file format");
         return nil;
     }
     
     UIImage *sizeImage = [image resizedImage:CGSizeMake(128, 128) interpolationQuality:kCGInterpolationDefault];
     [self.cache setObject:sizeImage forKey:info.path.stringValue];
+    
     return sizeImage;
 }
 
@@ -168,6 +127,9 @@
     if (index < [self.imageArray count]) {
         DBFileInfo *info = [self.imageArray objectAtIndex:index];
         UIImage *image = [self loadImage:info];
+        if (!image) {
+            NSLog(@"can't load image from cache");
+        }
         [cell.v1 setImage:image forState:UIControlStateNormal];
         cell.v1.tag = index;
         cell.v1.hidden = NO;
@@ -241,14 +203,12 @@
         NSLog(@"list folder error");
         return;
     }
-    
-    self.imageArray = array;
 
     PhotoMetaDB *db = [PhotoMetaDB instance];
     NSArray *photos = [db getCloudPhotoList];
     NSLog(@"cloud photos:%@", photos);
     NSMutableSet *set = [NSMutableSet setWithArray:photos];
-    for (DBFileInfo *info in self.imageArray) {
+    for (DBFileInfo *info in array) {
         if ([set containsObject:info.path.stringValue]) {
             [set removeObject:info.path.stringValue];
         } else {
@@ -261,8 +221,32 @@
         [db removeCloudPhoto:path];
         NSLog(@"cloud photo removed:%@", path);
     }
+    NSLog(@"listed cloud image");
     
-    [self.tableView reloadData];
+    //在后台完成读取数据后，刷新界面
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        NSLog(@"load cloud image");
+        for (DBFileInfo *info in array) {
+            @autoreleasepool {
+                DBFile *file = [filesystem openFile:info.path error:nil];
+                if (file == nil) {
+                    NSLog(@"open file error");
+                    continue;
+                }
+                if (file.status.cached) {
+                    continue;
+                }
+                //waiting readed from cloud
+                [file readData:nil];
+                [file close];
+            }
+        }
+        NSLog(@"loaded cloud image");
+        dispatch_async(dispatch_get_main_queue(), ^{
+            self.imageArray = array;
+            [self.tableView reloadData];
+        });
+    });
     
 }
 @end

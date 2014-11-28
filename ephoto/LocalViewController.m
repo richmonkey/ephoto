@@ -14,6 +14,7 @@
 #import "SelectorViewController.h"
 #import "ImageViewController.h"
 #import "PhotoMetaDB.h"
+#import "EPhoto.h"
 
 @interface LocalViewController ()
 @property(nonatomic)ALAssetsLibrary *library;
@@ -66,36 +67,7 @@
     [self.navigationController pushViewController:controller animated:YES];
 }
 
--(NSString *)md5:(NSData *)data {
-    unsigned char digest[16];
-    CC_MD5( [data bytes], [data length], digest );
-    
-    NSMutableString *output = [NSMutableString stringWithCapacity:CC_MD5_DIGEST_LENGTH * 2];
-    
-    for(int i = 0; i < CC_MD5_DIGEST_LENGTH; i++)
-        [output appendFormat:@"%02x", digest[i]];
-    
-    return  output;
-}
 
-
--(DBPath*)imageCloudPath:(ALAssetRepresentation*)rep {
-    int size = (int)[rep size];
-    NSMutableData *data = [NSMutableData dataWithLength:size];
-    
-    void *p = [data mutableBytes];
-    NSError *error;
-    int r = [rep getBytes:p fromOffset:0 length:size error:&error];
-    if (r == 0) {
-        NSLog(@"byte zero:%@ size:%d", error, size);
-        return nil;
-    }
-
-    NSString *md5 = [self md5:data];
-    DBPath *path = [[DBPath root] childPath:@"images"];
-    path = [path childPath:md5];
-    return path;
-}
 
 - (void)listImages {
     
@@ -123,19 +95,22 @@
             NSLog(@"local photos:%@", photos);
             NSMutableSet *set = [NSMutableSet setWithArray:photos];
             for (ALAsset *asset in self.assets) {
-                ALAssetRepresentation *rep = [asset defaultRepresentation];
-                if ([set containsObject:rep.url.absoluteString]) {
-                    [set removeObject:rep.url.absoluteString];
-                } else {
-                    DBPath *path = [self imageCloudPath:rep];
-                    [db addLocalPhoto:rep.url.absoluteString cloudPath:path.stringValue];
-                    NSLog(@"add local photo url:%@ cloud path:%@", rep.url.absoluteString, path.stringValue);
+                @autoreleasepool {
+                    ALAssetRepresentation *rep = [asset defaultRepresentation];
+                    if ([set containsObject:rep.url.absoluteString]) {
+                        [set removeObject:rep.url.absoluteString];
+                    } else {
+                        DBPath *path = [EPhoto imageCloudPath:rep];
+                        [db addLocalPhoto:rep.url.absoluteString cloudPath:path.stringValue];
+                        NSLog(@"add local photo url:%@ cloud path:%@", rep.url.absoluteString, path.stringValue);
+                    }
                 }
             }
             for (NSString *url in set) {
                 NSLog(@"remove local photo:%@", url);
                 [db removeLocalPhoto:url];
             }
+            NSLog(@"local image loaded");
             [self.tableView reloadData];
         }
     };
@@ -155,7 +130,11 @@
         return;
     }
     ALAsset *asset = [self.assets objectAtIndex:index];
-    UIImage *image = [UIImage imageWithCGImage:[[asset defaultRepresentation] fullScreenImage]];
+
+    CGImageRef cimage = [[asset defaultRepresentation] fullResolutionImage];
+    UIImageOrientation orientation = (UIImageOrientation)[[asset defaultRepresentation] orientation];
+    NSLog(@"orientation:%d", orientation);
+    UIImage *image = [UIImage imageWithCGImage:cimage scale:1.0 orientation:orientation];
     ImageViewController *c = [[ImageViewController alloc] init];
     c.image = image;
     [self.navigationController pushViewController:c animated:YES];
