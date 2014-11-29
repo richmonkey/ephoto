@@ -60,7 +60,7 @@
     
     UITapGestureRecognizer *tap  = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTapImageView:)];
     [tap setNumberOfTouchesRequired: 1];
-    [self.imageView addGestureRecognizer:tap];
+    [self.view addGestureRecognizer:tap];
     
     if (self.fileInfo) {
         
