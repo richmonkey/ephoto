@@ -17,4 +17,5 @@
 +(DBPath*)imageCloudPath:(ALAssetRepresentation*)rep;
 +(void)copyFile:(ALAsset*)asset;
 +(UIImage*)loadImage:(DBFileInfo*)info;
++(DBPath*)imageRootPath;
 @end
