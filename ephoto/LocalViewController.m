@@ -16,8 +16,6 @@
 #import "PhotoMetaDB.h"
 #import "EPhoto.h"
 
-#import "ESImageViewController.h"
-
 
 @interface LocalViewController ()
 @property(nonatomic)ALAssetsLibrary *library;
