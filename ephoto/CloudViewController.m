@@ -50,7 +50,7 @@
     }
     NSLog(@"cloudviewcontroller did loaded");
     
-    UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithTitle:@"Add" style:UIBarButtonItemStylePlain
+    UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithTitle:@"Save" style:UIBarButtonItemStylePlain
                                                             target:self action:@selector(copyToLocal)];
     self.navigationItem.rightBarButtonItem = item;
     
@@ -86,6 +86,8 @@
     }
     ImageViewController *c = [[ImageViewController alloc] init];
     c.image = image;
+    c.fileInfo = info;
+    c.hidesBottomBarWhenPushed = YES;
     [self.navigationController pushViewController:c animated:YES];
 }
 

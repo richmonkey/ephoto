@@ -16,6 +16,9 @@
 #import "PhotoMetaDB.h"
 #import "EPhoto.h"
 
+#import "ESImageViewController.h"
+
+
 @interface LocalViewController ()
 @property(nonatomic)ALAssetsLibrary *library;
 @property(nonatomic)NSArray *assets;
@@ -134,9 +137,12 @@
     CGImageRef cimage = [[asset defaultRepresentation] fullResolutionImage];
     UIImageOrientation orientation = (UIImageOrientation)[[asset defaultRepresentation] orientation];
     NSLog(@"orientation:%d", orientation);
+    
     UIImage *image = [UIImage imageWithCGImage:cimage scale:1.0 orientation:orientation];
+    
     ImageViewController *c = [[ImageViewController alloc] init];
     c.image = image;
+    c.hidesBottomBarWhenPushed = YES;
     [self.navigationController pushViewController:c animated:YES];
 }
 
