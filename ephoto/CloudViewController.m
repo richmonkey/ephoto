@@ -176,7 +176,7 @@
 
 -(void)setupFS:(DBAccount*)account {
     DBFilesystem *filesystem = [DBFilesystem sharedFilesystem];
-    DBPath *newPath = [[DBPath root] childPath:@"images"];
+    DBPath *newPath = [EPhoto imageRootPath];
     DBFileInfo *info = [filesystem fileInfoForPath:newPath error:nil];
     if (info == nil) {
         BOOL r = [filesystem createFolder:newPath error:nil];
@@ -197,7 +197,7 @@
 
 -(void)listImages {
     NSLog(@"list cloud image");
-    DBPath *newPath = [[DBPath root] childPath:@"images"];
+    DBPath *newPath = [EPhoto imageRootPath];
     DBFilesystem *filesystem = [DBFilesystem sharedFilesystem];
     DBError *error;
     NSArray *array = [filesystem listFolder:newPath error:&error];

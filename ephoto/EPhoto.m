@@ -39,6 +39,12 @@
     return  output;
 }
 
++(DBPath*)imageRootPath {
+    SecretKey *key = [SecretKey instance];
+    const char *p = [key.key UTF8String];
+    NSString *path = [self md5:[NSData dataWithBytes:p length:strlen(p)]];
+    return [[DBPath root] childPath:path];
+}
 
 +(DBPath*)imageCloudPath:(ALAssetRepresentation*)rep {
     int size = (int)[rep size];
@@ -53,7 +59,7 @@
     }
     
     NSString *md5 = [self md5:data];
-    DBPath *path = [[DBPath root] childPath:@"images"];
+    DBPath *path = [self imageRootPath];
     path = [path childPath:md5];
     return path;
 }
@@ -101,7 +107,7 @@
     
     DBFilesystem *filesystem = [DBFilesystem sharedFilesystem];
     NSString *md5 = [self md5:data];
-    DBPath *path = [[DBPath root] childPath:@"images"];
+    DBPath *path = [self imageRootPath];
     path = [path childPath:md5];
     
     SecretKey *key = [SecretKey instance];
