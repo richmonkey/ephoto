@@ -39,11 +39,11 @@
 {
     [super viewDidLoad];
     
-    
     CALayer *imageLayer = [self.backView layer];   //获取ImageView的层
     [imageLayer setMasksToBounds:YES];
     [imageLayer setCornerRadius: 5];
     
+    [self.backView setBackgroundColor:RGBACOLOR(15, 15, 15, 0.6)];
     
     DBAccountManager *manager = [DBAccountManager sharedManager];
     DBAccount *account = [manager linkedAccount];
