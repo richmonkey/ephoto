@@ -50,7 +50,7 @@
     }
     NSLog(@"cloudviewcontroller did loaded");
     
-    UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithTitle:@"add" style:UIBarButtonItemStylePlain
+    UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithTitle:@"Add" style:UIBarButtonItemStylePlain
                                                             target:self action:@selector(copyToLocal)];
     self.navigationItem.rightBarButtonItem = item;
     

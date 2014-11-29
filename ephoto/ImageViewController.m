@@ -27,7 +27,7 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    
+    [self.view setBackgroundColor:[UIColor whiteColor]];
     CGRect bounds = self.view.bounds;
 
     //图片居中显示,保持原有宽高比例

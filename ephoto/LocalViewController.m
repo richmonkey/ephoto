@@ -33,7 +33,7 @@
 {
     [super viewDidLoad];
 
-    UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithTitle:@"add" style:UIBarButtonItemStylePlain
+    UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithTitle:@"Add" style:UIBarButtonItemStylePlain
                                                             target:self action:@selector(copyToCloud)];
     self.navigationItem.rightBarButtonItem = item;
 

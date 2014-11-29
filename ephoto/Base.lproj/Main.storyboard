@@ -69,7 +69,7 @@
         <scene sceneID="h9P-Uo-9pz">
             <objects>
                 <navigationController definesPresentationContext="YES" id="Off-ga-q4r" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Local" image="first" id="vOD-KO-22n"/>
+                    <tabBarItem key="tabBarItem" title="Local" image="local" id="vOD-KO-22n"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="xRM-ez-2rh">
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -146,7 +146,7 @@
         <scene sceneID="ZBP-0V-RvM">
             <objects>
                 <navigationController definesPresentationContext="YES" id="kgA-qY-ljf" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Cloud" image="second" id="IHK-oJ-Aks"/>
+                    <tabBarItem key="tabBarItem" title="Cloud" image="cloud" id="IHK-oJ-Aks"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="ouV-vo-vDp">
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -313,8 +313,8 @@
         </scene>
     </scenes>
     <resources>
-        <image name="first" width="30" height="30"/>
-        <image name="second" width="30" height="30"/>
+        <image name="cloud" width="60" height="60"/>
+        <image name="local" width="60" height="60"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
