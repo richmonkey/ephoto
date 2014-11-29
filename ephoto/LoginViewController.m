@@ -15,6 +15,7 @@
 #import "PhotoMetaDB.h"
 #import "EPhoto.h"
 #import "MBProgressHUD.h"
+#import "SecretViewController.h"
 
 @interface LoginViewController ()
 
@@ -109,8 +110,23 @@
 }
 
 - (IBAction)nextAction:(id)sender{
+    DBAccountManager *manager = [DBAccountManager sharedManager];
+    DBAccount *account = [manager linkedAccount];
+    if (!account) {
+        NSLog(@"no account linked");
+        return;
+    }
     
+    DBFilesystem *filesystem = [[DBFilesystem alloc] initWithAccount:account];
+    [DBFilesystem setSharedFilesystem:filesystem];
+ 
     
+    [manager removeObserver:self];
+    [self.account removeObserver:self];
+    
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    SecretViewController *controller = [storyboard instantiateViewControllerWithIdentifier:@"Secret"];
+    [self.navigationController pushViewController:controller animated:YES];
 }
 
 

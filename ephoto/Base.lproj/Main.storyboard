@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="5056" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="jR6-fr-0bm">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="5056" systemVersion="13F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="jR6-fr-0bm">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
     </dependencies>
@@ -203,7 +203,6 @@
                                         </state>
                                         <connections>
                                             <action selector="nextAction:" destination="vpS-bp-d8X" eventType="touchUpInside" id="4DO-Yi-3bQ"/>
-                                            <segue destination="Swl-mn-rAZ" kind="push" id="auw-R3-zdJ"/>
                                         </connections>
                                     </button>
                                 </subviews>
@@ -225,7 +224,7 @@
         <!--Secret View Controller - ephoto-->
         <scene sceneID="jTh-9Y-KYP">
             <objects>
-                <viewController id="Swl-mn-rAZ" customClass="SecretViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="Secret" id="Swl-mn-rAZ" customClass="SecretViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="dlO-W1-FiK"/>
                         <viewControllerLayoutGuide type="bottom" id="lua-nw-W0k"/>
@@ -313,7 +312,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="cloud" width="60" height="60"/>
+        <image name="cloud" width="30" height="30"/>
         <image name="local" width="60" height="60"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
