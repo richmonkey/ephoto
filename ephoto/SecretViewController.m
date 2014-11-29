@@ -102,6 +102,8 @@
     [SecretKey instance].key = self.keyTextField.text;
     [[SecretKey instance] save];
     
+    [self.keyTextField resignFirstResponder];
+    
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:[[UIApplication sharedApplication] keyWindow] animated:YES];
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         [self listImages:^{

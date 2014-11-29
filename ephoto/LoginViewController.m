@@ -20,7 +20,7 @@
 @interface LoginViewController ()
 
 @property (weak, nonatomic) IBOutlet UIButton *dropboxButton;
-@property (weak, nonatomic) IBOutlet UIButton *nextButton;
+@property (weak, nonatomic) IBOutlet UIView *backView;
 @property(nonatomic) DBAccount *account;
 @end
 
@@ -39,7 +39,11 @@
 {
     [super viewDidLoad];
     
-    [self.nextButton setHidden:YES];
+    
+    CALayer *imageLayer = [self.backView layer];   //获取ImageView的层
+    [imageLayer setMasksToBounds:YES];
+    [imageLayer setCornerRadius: 5];
+    
     
     DBAccountManager *manager = [DBAccountManager sharedManager];
     DBAccount *account = [manager linkedAccount];
@@ -61,7 +65,7 @@
             [self.dropboxButton setTitle:account.info.displayName forState:UIControlStateDisabled];
         }
         self.dropboxButton.enabled = NO;
-        [self.nextButton setHidden:NO];
+       [self showNextButton];
         self.account = account;
         
         __weak LoginViewController *wself = self;
@@ -82,7 +86,7 @@
                 [wself.dropboxButton setTitle:account.info.displayName forState:UIControlStateNormal];
                 [wself.dropboxButton setTitle:account.info.displayName forState:UIControlStateDisabled];
             }
-            [wself.nextButton setHidden:NO];
+            [self showNextButton];
             wself.dropboxButton.enabled = NO;
             
             if (wself.account != account) {
@@ -98,6 +102,9 @@
             }
         }
     }];
+    
+
+    
 
 }
 
@@ -127,6 +134,17 @@
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     SecretViewController *controller = [storyboard instantiateViewControllerWithIdentifier:@"Secret"];
     [self.navigationController pushViewController:controller animated:YES];
+}
+
+-(void)showNextButton{
+    
+    UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithTitle:@"Next"
+                                                             style:UIBarButtonItemStylePlain
+                                                            target:self
+                                                            action:@selector(nextAction:)];
+    
+    self.navigationItem.rightBarButtonItem = item;
+    
 }
 
 

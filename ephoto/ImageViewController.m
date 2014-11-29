@@ -60,7 +60,7 @@
     [self.imageView addGestureRecognizer:tap];
     
     if (self.fileInfo) {
-        UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithTitle:@"remove"
+        UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithTitle:@"Remove"
                                                                  style:UIBarButtonItemStylePlain
                                                                 target:self
                                                                 action:@selector(removeAction:)];
