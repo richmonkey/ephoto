@@ -125,6 +125,9 @@
         [cell.v3 addTarget:self action:@selector(onClick:) forControlEvents:UIControlEventTouchUpInside];
         [cell.v4 addTarget:self action:@selector(onClick:) forControlEvents:UIControlEventTouchUpInside];
     }
+    
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    
     int index = indexPath.row*4;
     if (index < [self.imageArray count]) {
         DBFileInfo *info = [self.imageArray objectAtIndex:index];

@@ -33,7 +33,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-
+    
     UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithTitle:@"Add" style:UIBarButtonItemStylePlain
                                                             target:self action:@selector(copyToCloud)];
     self.navigationItem.rightBarButtonItem = item;
@@ -161,6 +161,9 @@
         [cell.v3 addTarget:self action:@selector(onClick:) forControlEvents:UIControlEventTouchUpInside];
         [cell.v4 addTarget:self action:@selector(onClick:) forControlEvents:UIControlEventTouchUpInside];
     }
+    
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    
     int index = indexPath.row*4;
     if (index < [self.assets count]) {
         ALAsset *asset = [self.assets objectAtIndex:index];

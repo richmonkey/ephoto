@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		48580BD11A2A018F00D97C13 /* UIAlertView+XPAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = 48580BD01A2A018F00D97C13 /* UIAlertView+XPAlertView.m */; };
 		48BAE4191A26C65700B05E00 /* SecretViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 48BAE4181A26C65700B05E00 /* SecretViewController.m */; };
 		6D41B2E11A232A9300DC79FF /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6D41B2E01A232A9300DC79FF /* Foundation.framework */; };
 		6D41B2E31A232A9300DC79FF /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6D41B2E21A232A9300DC79FF /* CoreGraphics.framework */; };
@@ -60,6 +61,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		48580BCF1A2A018F00D97C13 /* UIAlertView+XPAlertView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIAlertView+XPAlertView.h"; sourceTree = "<group>"; };
+		48580BD01A2A018F00D97C13 /* UIAlertView+XPAlertView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIAlertView+XPAlertView.m"; sourceTree = "<group>"; };
 		48BAE4171A26C65700B05E00 /* SecretViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SecretViewController.h; sourceTree = "<group>"; };
 		48BAE4181A26C65700B05E00 /* SecretViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SecretViewController.m; sourceTree = "<group>"; };
 		6D41B2DD1A232A9300DC79FF /* ephoto.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ephoto.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -170,6 +173,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		48580BCE1A2A018F00D97C13 /* third */ = {
+			isa = PBXGroup;
+			children = (
+				48580BCF1A2A018F00D97C13 /* UIAlertView+XPAlertView.h */,
+				48580BD01A2A018F00D97C13 /* UIAlertView+XPAlertView.m */,
+			);
+			path = third;
+			sourceTree = "<group>";
+		};
 		6D41B2D41A232A9300DC79FF = {
 			isa = PBXGroup;
 			children = (
@@ -210,6 +222,7 @@
 		6D41B2E61A232A9300DC79FF /* ephoto */ = {
 			isa = PBXGroup;
 			children = (
+				48580BCE1A2A018F00D97C13 /* third */,
 				6D41B34D1A24890A00DC79FF /* aes */,
 				6D41B3371A244A9800DC79FF /* leveldb */,
 				6D41B2EF1A232A9300DC79FF /* AppDelegate.h */,
@@ -419,6 +432,7 @@
 				6D41B34C1A2451DF00DC79FF /* SelectorViewController.m in Sources */,
 				6D41B3321A23856900DC79FF /* LoginViewController.m in Sources */,
 				6D41B2FA1A232A9300DC79FF /* CloudViewController.m in Sources */,
+				48580BD11A2A018F00D97C13 /* UIAlertView+XPAlertView.m in Sources */,
 				6D41B32E1A2380D800DC79FF /* MainTabBarController.m in Sources */,
 				6D41B3561A24890A00DC79FF /* AESCrypt.m in Sources */,
 				6D41B3651A25870100DC79FF /* PhotoMetaDB.m in Sources */,

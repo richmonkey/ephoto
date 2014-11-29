@@ -7,10 +7,12 @@
 //
 
 #import "ImageViewController.h"
+#import "UIAlertView+XPAlertView.h"
 
 
 @interface ImageViewController ()
 @property(nonatomic, weak)UIImageView *imageView;
+@property(nonatomic)UIStatusBarStyle prevStatusStyle;
 @end
 
 @implementation ImageViewController
@@ -20,6 +22,7 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
+        self.prevStatusStyle = [[UIApplication sharedApplication] statusBarStyle];
     }
     return self;
 }
@@ -60,11 +63,18 @@
     [self.imageView addGestureRecognizer:tap];
     
     if (self.fileInfo) {
-        UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithTitle:@"Remove"
-                                                                 style:UIBarButtonItemStylePlain
-                                                                target:self
-                                                                action:@selector(removeAction:)];
-        self.navigationItem.rightBarButtonItem = item;
+        
+        UIButton *favButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 30, 30)];
+        
+        [favButton setImage:[UIImage imageNamed:@"topnav_del.png"] forState:UIControlStateNormal];
+        [favButton addTarget:self action:@selector(removeAction:)
+            forControlEvents:UIControlEventTouchUpInside];
+        
+        [favButton setTintColor:[UIColor blueColor]];
+        UIBarButtonItem *button = [[UIBarButtonItem alloc]
+                                   initWithCustomView:favButton];
+        
+        self.navigationItem.rightBarButtonItem = button;
     }
     
 }
@@ -76,23 +86,41 @@
 }
 
 - (void)handleTapImageView:(id)sender{
+    
     bool isShow = !self.navigationController.navigationBar.isHidden;
     [self.navigationController.navigationBar setHidden:isShow];
+    
+    //should add this value to plist: "View controller-based status bar appearance"
+    //and set it to "NO".
+    [[UIApplication sharedApplication] setStatusBarHidden:isShow withAnimation:UIStatusBarAnimationSlide];
 }
 
+
+
 -(void)removeAction:(id)sender{
-    DBFilesystem *filesystem = [DBFilesystem sharedFilesystem];
     
-    NSError *error;
-    bool isComplete =  [filesystem deletePath:self.fileInfo.path error:&error];
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"will delete the image!"  delegate:nil cancelButtonTitle:@"canel" otherButtonTitles:@"ok", nil] ;
+    [alert showWithCompletion:^(UIAlertView *alertView, NSInteger buttonIndex){
+        
+        if (buttonIndex == 1) {
+            DBFilesystem *filesystem = [DBFilesystem sharedFilesystem];
+            
+            NSError *error;
+            bool isComplete =  [filesystem deletePath:self.fileInfo.path error:&error];
+            
+            if (isComplete) {
+                NSLog(@"%@---delete ok!",self.fileInfo.path.stringValue);
+            }else{
+                NSLog(@"%@",error);
+            }
+            [self.navigationController popViewControllerAnimated:YES];
+            
+        }else{
+            
+        }
+    }];;
     
-    if (isComplete) {
-        NSLog(@"%@---delete ok!",self.fileInfo.path.stringValue);
-    }else{
-        NSLog(@"%@",error);
-    }
-    
-    [self.navigationController popViewControllerAnimated:YES];
+
 }
 
 
