@@ -37,6 +37,12 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    self.keyTextField.delegate = self;
+   
+    UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] init];
+    tapGesture.numberOfTapsRequired = 1;
+    [tapGesture addTarget:self action:@selector(tapAction:)];
+    [self.view addGestureRecognizer:tapGesture];
 }
 
 
@@ -116,6 +122,56 @@
             });
         }];
     });
+}
+
+#pragma mark - UITextField Delegate Methods
+- (BOOL)textFieldShouldReturn:(UITextField *)textField {
+    return YES;
+}
+
+- (void)textFieldDidBeginEditing:(UITextField *)textField {
+    [self animateTextField:YES];
+}
+
+- (void)textFieldDidEndEditing:(UITextField *)textField {
+    [self animateTextField:NO];
+}
+
+- (void)animateTextField:(BOOL)up
+{
+    const int movementDistance = 80;
+    const float movementDuration = 0.3f;
+    
+    int movement = (up ? -movementDistance : movementDistance);
+    
+    [UIView beginAnimations: @"anim" context: nil];
+    
+    [UIView setAnimationBeginsFromCurrentState: YES];
+    
+    [UIView setAnimationDuration: movementDuration];
+    
+    UIInterfaceOrientation orientation = [UIApplication sharedApplication].statusBarOrientation;
+    
+    
+    if (UIInterfaceOrientationIsLandscape(orientation)) {
+        if (orientation == UIInterfaceOrientationLandscapeLeft) {
+            self.view.frame = CGRectOffset(self.view.frame, movement , 0);
+        }else{
+            self.view.frame = CGRectOffset(self.view.frame, -movement , 0);
+        }
+    }else{
+        if (orientation == UIInterfaceOrientationPortrait) {
+            self.view.frame = CGRectOffset(self.view.frame, 0 , movement);
+        }else{
+            self.view.frame = CGRectOffset(self.view.frame, 0 , -movement);
+        }
+    }
+    [UIView commitAnimations];
+    
+}
+
+-(void)tapAction:(id)sender{
+    [self.keyTextField resignFirstResponder];
 }
 
 @end

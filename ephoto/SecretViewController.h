@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface SecretViewController : UIViewController
+@interface SecretViewController : UIViewController <UITextFieldDelegate>
 
 @end
