@@ -144,6 +144,7 @@
 
 - (void)animateTextField:(BOOL)up
 {
+
     const int movementDistance = 80;
     const float movementDuration = 0.3f;
     
