@@ -24,43 +24,43 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         float x = 0;
-        float y = 0;
+        float y = 1;
         CGRect frame;
-        frame = CGRectMake(x, y, CellImageWidth - 1, CellImageHeight);
+        frame = CGRectMake(x, y, 78, 80);
         self.v1 = [[UIButton alloc] initWithFrame:frame];
         [self addSubview:self.v1];
         
-        frame = CGRectMake(x+kMarkXOffset, y + kMarkYOffset, kMarkWidth, kMarkHeight);
+        frame = CGRectMake(x+62, y + 68, 16, 12);
         self.i1 = [[UIImageView alloc] initWithFrame:frame];
         [self addSubview:self.i1];
-        x += KCellWidth + KCellImageXOffset;
+        x += 80;
         
-        frame = CGRectMake(x, y, CellImageWidth - 2, CellImageHeight);
+        frame = CGRectMake(x, y, 79, 80);
         self.v2 = [[UIButton alloc] initWithFrame:frame];
         [self addSubview:self.v2];
         
-        frame = CGRectMake(x+kMarkXOffset, y + kMarkYOffset, kMarkWidth, kMarkHeight);
+        frame = CGRectMake(x+63, y + 68, 16, 12);
         self.i2 = [[UIImageView alloc] initWithFrame:frame];
         [self addSubview:self.i2];
-        x += KCellWidth + KCellImageXOffset;
+        x += 81;
         
-        frame = CGRectMake(x, y, CellImageWidth - 2, CellImageHeight);
+        frame = CGRectMake(x, y, 79, 80);
         self.v3 = [[UIButton alloc] initWithFrame:frame];
         [self addSubview:self.v3];
         
-        frame = CGRectMake(x+kMarkXOffset, y + kMarkYOffset, kMarkWidth, kMarkHeight);
+        frame = CGRectMake(x+63, y + 68, 16, 12);
         self.i3 = [[UIImageView alloc] initWithFrame:frame];
         [self addSubview:self.i3];
-        x += KCellWidth + KCellImageXOffset;
+        x += 81;
         
-        frame = CGRectMake(x, y, CellImageWidth - 1, CellImageHeight);
+        frame = CGRectMake(x, y, 78, 80);
         self.v4 = [[UIButton alloc] initWithFrame:frame];
         [self addSubview:self.v4];
         
-        frame = CGRectMake(x+kMarkXOffset, y + kMarkYOffset, kMarkWidth, kMarkHeight);
+        frame = CGRectMake(x+62, y + 68, 16, 12);
         self.i4 = [[UIImageView alloc] initWithFrame:frame];
         [self addSubview:self.i4];
-        x += KCellWidth + KCellImageXOffset;
+        x += 80;
     }
     return self;
 }
