@@ -218,7 +218,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="password" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="sYe-uU-Hkl">
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="password(length&gt;=6)" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="sYe-uU-Hkl">
                                 <rect key="frame" x="52" y="215" width="217" height="30"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
@@ -252,6 +252,7 @@
                     <navigationItem key="navigationItem" title="Password" id="QMi-wc-dbN" userLabel="ephoto" colorLabel="IBBuiltInLabel-Green"/>
                     <connections>
                         <outlet property="keyTextField" destination="sYe-uU-Hkl" id="PcS-qz-lsC"/>
+                        <outlet property="saveButton" destination="lYY-Q0-oOo" id="E2E-d5-MNI"/>
                         <segue destination="8YX-ce-x5E" kind="push" identifier="main" id="Qea-GU-lsy"/>
                     </connections>
                 </viewController>

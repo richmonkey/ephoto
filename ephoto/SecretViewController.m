@@ -19,6 +19,7 @@
 #import "MBProgressHUD.h"
 
 @interface SecretViewController ()
+@property (weak, nonatomic) IBOutlet UIButton *saveButton;
 
 @property (weak, nonatomic) IBOutlet UITextField *keyTextField;
 @end
@@ -37,8 +38,12 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
     self.keyTextField.delegate = self;
-   
+    [self.keyTextField addTarget:self action:@selector(textFieldDidChange:) forControlEvents:UIControlEventEditingChanged];
+    [self.saveButton setEnabled:NO];
+    [self.saveButton setBackgroundColor:RGBCOLOR(100, 100, 100)];
+    
     UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] init];
     tapGesture.numberOfTapsRequired = 1;
     [tapGesture addTarget:self action:@selector(tapAction:)];
@@ -172,6 +177,17 @@
 
 -(void)tapAction:(id)sender{
     [self.keyTextField resignFirstResponder];
+}
+
+- (void) textFieldDidChange:(id) sender {
+    UITextField *_field = (UITextField *)sender;
+    if ([_field text].length >= 6) {
+        [self.saveButton setEnabled:YES];
+        [self.saveButton setBackgroundColor:RGBCOLOR(17,124,255)];
+    }else{
+        [self.saveButton setEnabled:NO];
+        [self.saveButton setBackgroundColor:RGBCOLOR(100, 100, 100)];
+    }
 }
 
 @end
