@@ -593,7 +593,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "a3aacb37-a308-43da-b768-deb68c7618e0";
 				USER_HEADER_SEARCH_PATHS = ephoto;
-				VALID_ARCHS = armv7;
+				VALID_ARCHS = "armv7 arm64";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -620,7 +620,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "09059708-873b-4cd6-ae8d-6d3fe679feaf";
 				USER_HEADER_SEARCH_PATHS = ephoto;
-				VALID_ARCHS = armv7;
+				VALID_ARCHS = "armv7 arm64";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
