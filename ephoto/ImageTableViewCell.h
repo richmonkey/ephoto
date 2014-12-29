@@ -19,4 +19,10 @@
 @property(nonatomic)UIImageView *i2;
 @property(nonatomic)UIImageView *i3;
 @property(nonatomic)UIImageView *i4;
+
+@property(nonatomic)UIActivityIndicatorView *a1;
+@property(nonatomic)UIActivityIndicatorView *a2;
+@property(nonatomic)UIActivityIndicatorView *a3;
+@property(nonatomic)UIActivityIndicatorView *a4;
+
 @end

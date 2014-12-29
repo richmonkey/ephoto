@@ -18,7 +18,9 @@
 
 @interface CloudViewController ()
 @property(nonatomic)NSArray *imageArray;
+@property(nonatomic)NSArray *pendingImages;
 @property(nonatomic)NSCache *cache;
+@property(nonatomic)NSTimer *statusTimer;
 @end
 
 @implementation CloudViewController
@@ -54,6 +56,8 @@
                                                             target:self action:@selector(copyToLocal)];
     self.navigationItem.rightBarButtonItem = item;
     
+
+    self.statusTimer = [NSTimer scheduledTimerWithTimeInterval:10 target:self selector:@selector(refreshStatus) userInfo:nil repeats:YES];
 }
 
 - (void)didReceiveMemoryWarning
@@ -71,9 +75,39 @@
     [self.navigationController pushViewController:controller animated:YES];
 }
 
++(BOOL)isPending:(DBFile*)file {
+    if (file.status && (file.status.state == DBFileStateDownloading || file.status.state == DBFileStateUploading)) {
+        return YES;
+    } else if(file.newerStatus && (file.newerStatus.state == DBFileStateDownloading || file.newerStatus.state == DBFileStateUploading)) {
+        return YES;
+    }
+    return NO;
+}
+
+
+-(void)refreshStatus {
+    NSLog(@"refresh status");
+    NSMutableArray *pendingImages = [NSMutableArray array];
+    DBFilesystem *filesystem = [DBFilesystem sharedFilesystem];
+    for (DBFileInfo *info in self.imageArray) {
+        DBFile *file = [filesystem openFile:info.path error:nil];
+        if (file == nil) {
+            NSLog(@"open file error");
+            continue;
+        }
+        if ([CloudViewController isPending:file]) {
+            [pendingImages addObject:info];
+        }
+        [file close];
+    }
+    
+    self.pendingImages = pendingImages;
+    [self.tableView reloadData];
+}
+
 -(void)onClick:(UIButton*)sender {
-    NSLog(@"tag:%d", sender.tag);
-    int index = sender.tag;
+    NSLog(@"tag:%zd", sender.tag);
+    NSInteger index = sender.tag;
     if (index >= [self.imageArray count]) {
         return;
     }
@@ -128,7 +162,7 @@
     
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     
-    int index = indexPath.row*4;
+    NSInteger index = indexPath.row*4;
     if (index < [self.imageArray count]) {
         DBFileInfo *info = [self.imageArray objectAtIndex:index];
         UIImage *image = [self loadImage:info];
@@ -138,6 +172,11 @@
         [cell.v1 setImage:image forState:UIControlStateNormal];
         cell.v1.tag = index;
         cell.v1.hidden = NO;
+        if ([self.pendingImages containsObject:info]) {
+            [cell.a1 startAnimating];
+        } else if (cell.a1.isAnimating) {
+            [cell.a1 stopAnimating];
+        }
     } else {
         cell.v1.hidden = YES;
     }
@@ -149,6 +188,11 @@
         [cell.v2 setImage:image forState:UIControlStateNormal];
         cell.v2.tag = index;
         cell.v2.hidden = NO;
+        if ([self.pendingImages containsObject:info]) {
+            [cell.a2 startAnimating];
+        } else if (cell.a1.isAnimating) {
+            [cell.a2 stopAnimating];
+        }
     } else {
         cell.v2.hidden = YES;
     }
@@ -160,6 +204,11 @@
         [cell.v3 setImage:image forState:UIControlStateNormal];
         cell.v3.tag = index;
         cell.v3.hidden = NO;
+        if ([self.pendingImages containsObject:info]) {
+            [cell.a3 startAnimating];
+        } else if (cell.a1.isAnimating) {
+            [cell.a3 stopAnimating];
+        }
     } else {
         cell.v3.hidden = YES;
     }
@@ -171,6 +220,11 @@
         [cell.v4 setImage:image forState:UIControlStateNormal];
         cell.v4.tag = index;
         cell.v4.hidden = NO;
+        if ([self.pendingImages containsObject:info]) {
+            [cell.a4 startAnimating];
+        } else if (cell.a1.isAnimating) {
+            [cell.a4 stopAnimating];
+        }
     } else {
         cell.v4.hidden = YES;
     }
@@ -249,6 +303,7 @@
         NSLog(@"loaded cloud image");
         dispatch_async(dispatch_get_main_queue(), ^{
             self.imageArray = array;
+            [self refreshStatus];
             [self.tableView reloadData];
         });
     });
