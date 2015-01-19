@@ -48,8 +48,10 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    self.navigationController.navigationBar.translucent = NO;
     // Do any additional setup after loading the view.
     [self.view setBackgroundColor:[UIColor whiteColor]];
+    
     CGRect bounds = self.view.bounds;
     bounds.size.width += 20;
     UIScrollView *scrollView = [[UIScrollView alloc] initWithFrame:bounds];
