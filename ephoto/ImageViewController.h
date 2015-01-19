@@ -9,7 +9,9 @@
 #import <UIKit/UIKit.h>
 #import <Dropbox/Dropbox.h>
 
-@interface ImageViewController : UIViewController
-@property(nonatomic)UIImage *image;
-@property(nonatomic)DBFileInfo  *fileInfo;
+@interface ImageViewController : UIViewController<UIScrollViewDelegate>
+
+
+
+@property(nonatomic, assign)NSInteger index;
 @end

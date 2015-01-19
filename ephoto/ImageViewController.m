@@ -11,8 +11,20 @@
 
 
 @interface ImageViewController ()
-@property(nonatomic, weak)UIImageView *imageView;
+
+
+@property(nonatomic)UIImage *prevImage;
+@property(nonatomic)UIImage *currentImage;
+@property(nonatomic)UIImage *nextImage;
+
+@property(nonatomic, weak)UIImageView *prevImageView;
+@property(nonatomic, weak)UIImageView *currentImageView;
+@property(nonatomic, weak)UIImageView *nextImageView;
+
+@property(nonatomic, assign)CGPoint contentOffset;
+
 @property(nonatomic)UIStatusBarStyle prevStatusStyle;
+
 @end
 
 @implementation ImageViewController
@@ -27,56 +39,179 @@
     return self;
 }
 
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     [self.view setBackgroundColor:[UIColor whiteColor]];
     CGRect bounds = self.view.bounds;
-    
-    //图片居中显示,保持原有宽高比例
-    float x, y, w, h;
-    if (self.image.size.height/self.image.size.width > bounds.size.height/bounds.size.width) {
-        w = bounds.size.height*(self.image.size.width/self.image.size.height);
-        h = bounds.size.width;
-        x = (bounds.size.width-w)/2;
-        y = 0;
-        
-    } else {
-        h = bounds.size.width*(self.image.size.height/self.image.size.width);
-        w = bounds.size.width;
-        x = 0;
-        y = (bounds.size.height-h)/2;
+    UIScrollView *scrollView = [[UIScrollView alloc] initWithFrame:bounds];
+    scrollView.pagingEnabled = YES;
+    scrollView.bounces = YES;
+    scrollView.delegate = self;
+    [self.view addSubview:scrollView];
+    if (self.imageCount == 0 || self.index < 0 || self.index >= self.imageCount) {
+        return;
     }
-    CGRect frame = CGRectMake(x, y, w, h);
     
-    UIImageView *view = [[UIImageView alloc] initWithFrame:frame];
-    [self.view addSubview:view];
-    self.imageView = view;
+    self.prevImage = [self loadImage:self.index - 1];
+    self.currentImage = [self loadImage:self.index];
+    self.nextImage = [self loadImage:self.index + 1];
     
-    self.imageView.image = self.image;
+    if (self.imageCount == 1) {
+        CGRect frame = bounds;
+        UIImageView *imageView = [[UIImageView alloc] initWithFrame:frame];
+        self.currentImageView = imageView;
+        self.currentImageView.image = self.currentImage;
+        [scrollView addSubview:self.currentImageView];
+        scrollView.contentSize = CGSizeMake(bounds.size.width, bounds.size.height);
+    } else if (self.imageCount == 2) {
+        if (self.prevImage) {
+            CGRect frame;
+            UIImageView *imageView;
+            frame = bounds;
+            imageView = [[UIImageView alloc] initWithFrame:frame];
+            self.prevImageView = imageView;
+            self.prevImageView.image = self.prevImage;
+            [scrollView addSubview:self.prevImageView];
+            frame = CGRectOffset(bounds, 320, 0);;
+            imageView = [[UIImageView alloc] initWithFrame:frame];
+            self.currentImageView = imageView;
+            self.currentImageView.image = self.currentImage;
+            [scrollView addSubview:self.currentImageView];
+            scrollView.contentSize = CGSizeMake(bounds.size.width*2, bounds.size.height);
+            scrollView.contentOffset = CGPointMake(bounds.size.width, 0);
+        } else {
+            CGRect frame;
+            UIImageView *imageView;
+            frame = bounds;
+            imageView = [[UIImageView alloc] initWithFrame:frame];
+            self.currentImageView = imageView;
+            self.currentImageView.image = self.currentImage;
+            [scrollView addSubview:self.currentImageView];
+            
+            frame = CGRectOffset(bounds, 640, 0);
+            imageView = [[UIImageView alloc] initWithFrame:frame];
+            self.nextImageView = imageView;
+            self.nextImageView.image = self.nextImage;
+            [scrollView addSubview:self.nextImageView];
+            
+            scrollView.contentSize = CGSizeMake(bounds.size.width*2, bounds.size.height);
+        }
+    } else {
+        CGRect frame;
+        UIImageView *imageView;
+        
+        if (self.index == 0) {
+            self.index = 1;
+            self.prevImage = self.currentImage;
+            self.currentImage = self.nextImage;
+            self.nextImage = [self loadImage:self.index + 1];
+            scrollView.contentOffset = CGPointMake(0, 0);
+        } else if (self.index == self.imageCount - 1) {
+            self.index = self.imageCount - 2;
+            self.nextImage = self.currentImage;
+            self.currentImage = self.prevImage;
+            self.prevImage = [self loadImage:self.index - 1];
+            scrollView.contentOffset = CGPointMake(bounds.size.width*2, 0);
+        } else {
+            scrollView.contentOffset = CGPointMake(bounds.size.width, 0);
+        }
+        
+        frame = bounds;
+        imageView = [[UIImageView alloc] initWithFrame:frame];
+        self.prevImageView = imageView;
+        self.prevImageView.image = self.prevImage;
+        [scrollView addSubview:self.prevImageView];
+        
+        frame = CGRectOffset(bounds, 320, 0);
+        imageView = [[UIImageView alloc] initWithFrame:frame];
+        self.currentImageView = imageView;
+        self.currentImageView.image = self.currentImage;
+        [scrollView addSubview:self.currentImageView];
+        
+        frame = CGRectOffset(bounds, 640, 0);
+        imageView = [[UIImageView alloc] initWithFrame:frame];
+        self.nextImageView = imageView;
+        self.nextImageView.image = self.nextImage;
+        [scrollView addSubview:self.nextImageView];
+        scrollView.contentSize = CGSizeMake(bounds.size.width*3, bounds.size.height);
+    }
     
-    [self.imageView setUserInteractionEnabled:YES];
+    self.contentOffset = scrollView.contentOffset;
     
     UITapGestureRecognizer *tap  = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTapImageView:)];
     [tap setNumberOfTouchesRequired: 1];
     [self.view addGestureRecognizer:tap];
+}
+
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
+    CGRect bounds = self.view.bounds;
     
-    if (self.fileInfo) {
-        
-        UIButton *favButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 30, 30)];
-        
-        [favButton setImage:[UIImage imageNamed:@"topnav_del.png"] forState:UIControlStateNormal];
-        [favButton addTarget:self action:@selector(removeAction:)
-            forControlEvents:UIControlEventTouchUpInside];
-        
-        [favButton setTintColor:[UIColor blueColor]];
-        UIBarButtonItem *button = [[UIBarButtonItem alloc]
-                                   initWithCustomView:favButton];
-        
-        self.navigationItem.rightBarButtonItem = button;
+    CGPoint offset = scrollView.contentOffset;
+    if (offset.x > self.contentOffset.x) {
+        self.index = self.index + 1;
+    } else if (offset.x < self.contentOffset.x) {
+        self.index = self.index - 1;
     }
+    self.contentOffset = offset;
     
+    if (offset.x == bounds.size.width*2) {
+        if (self.index == self.imageCount - 1 || self.index == self.imageCount - 2) {
+            return;
+        }
+        self.index = self.index + 1;
+        
+        if (self.index >= self.imageCount) {
+            return;
+        }
+        
+        self.prevImage = self.currentImage;
+        self.currentImage = self.nextImage;
+        
+        self.nextImage = [self loadImage:self.index + 1];
+        
+        self.prevImageView.image = self.prevImage;
+        self.currentImageView.image = self.currentImage;
+        self.nextImageView.image = self.nextImage;
+        
+    } else if (offset.x == 0) {
+        if (self.index == 0 || self.index == 1) {
+            return;
+        }
+        self.index = self.index - 1;
+        
+        self.nextImage = self.currentImage;
+        self.currentImage = self.prevImage;
+        
+        self.prevImage = [self loadImage:self.index - 1];
+        
+        self.prevImageView.image = self.prevImage;
+        self.currentImageView.image = self.currentImage;
+        self.nextImageView.image = self.nextImage;
+        
+    }
+    scrollView.contentOffset = CGPointMake(bounds.size.width, 0);
+    self.contentOffset = scrollView.contentOffset;
+}
+
+-(CGRect)centerFrame:(CGRect)bounds image:(UIImage*)image {
+    //图片居中显示,保持原有宽高比例
+    float x, y, w, h;
+    if (image.size.height/image.size.width > bounds.size.height/bounds.size.width) {
+        w = bounds.size.height*(image.size.width/image.size.height);
+        h = bounds.size.width;
+        x = bounds.origin.x + (bounds.size.width-w)/2;
+        y = bounds.origin.y;
+        
+    } else {
+        h = bounds.size.width*(image.size.height/image.size.width);
+        w = bounds.size.width;
+        x = bounds.origin.x;
+        y = bounds.origin.y + (bounds.size.height-h)/2;
+    }
+    return CGRectMake(x, y, w, h);
 }
 
 - (void)didReceiveMemoryWarning
@@ -95,44 +230,13 @@
     [[UIApplication sharedApplication] setStatusBarHidden:isShow withAnimation:UIStatusBarAnimationSlide];
 }
 
-
-
--(void)removeAction:(id)sender{
-    
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"will delete the image!"  delegate:nil cancelButtonTitle:@"canel" otherButtonTitles:@"ok", nil] ;
-    [alert showWithCompletion:^(UIAlertView *alertView, NSInteger buttonIndex){
-        
-        if (buttonIndex == 1) {
-            DBFilesystem *filesystem = [DBFilesystem sharedFilesystem];
-            
-            NSError *error;
-            bool isComplete =  [filesystem deletePath:self.fileInfo.path error:&error];
-            
-            if (isComplete) {
-                NSLog(@"%@---delete ok!",self.fileInfo.path.stringValue);
-            }else{
-                NSLog(@"%@",error);
-            }
-            [self.navigationController popViewControllerAnimated:YES];
-            
-        }else{
-            
-        }
-    }];;
-    
-
+-(NSInteger)imageCount {
+    return 0;
 }
 
+-(UIImage*)loadImage:(NSInteger)index {
+    return nil;
+}
 
-/*
- #pragma mark - Navigation
- 
- // In a storyboard-based application, you will often want to do a little preparation before navigation
- - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
- {
- // Get the new view controller using [segue destinationViewController].
- // Pass the selected object to the new view controller.
- }
- */
 
 @end

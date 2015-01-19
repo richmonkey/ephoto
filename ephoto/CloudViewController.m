@@ -11,7 +11,7 @@
 #import "ImageTableViewCell.h"
 #import "UIImage+Resize.h"
 #import "SecretKey.h"
-#import "ImageViewController.h"
+#import "CloudImageViewController.h"
 #import "CloudSelectorViewController.h"
 #import "PhotoMetaDB.h"
 #import "EPhoto.h"
@@ -118,7 +118,7 @@
         NSLog(@"can't load image from cache");
         return;
     }
-    ImageViewController *c = [[ImageViewController alloc] init];
+    CloudImageViewController *c = [[CloudImageViewController alloc] init];
     c.image = image;
     c.fileInfo = info;
     c.hidesBottomBarWhenPushed = YES;

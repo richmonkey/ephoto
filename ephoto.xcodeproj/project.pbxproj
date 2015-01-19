@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		48580BD11A2A018F00D97C13 /* UIAlertView+XPAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = 48580BD01A2A018F00D97C13 /* UIAlertView+XPAlertView.m */; };
 		48BAE4191A26C65700B05E00 /* SecretViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 48BAE4181A26C65700B05E00 /* SecretViewController.m */; };
+		6D14645B1A6C54AA0046FF32 /* LocalImageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D14645A1A6C54AA0046FF32 /* LocalImageViewController.m */; };
+		6D14645E1A6CE1720046FF32 /* CloudImageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D14645D1A6CE1720046FF32 /* CloudImageViewController.m */; };
 		6D41B2E11A232A9300DC79FF /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6D41B2E01A232A9300DC79FF /* Foundation.framework */; };
 		6D41B2E31A232A9300DC79FF /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6D41B2E21A232A9300DC79FF /* CoreGraphics.framework */; };
 		6D41B2E51A232A9300DC79FF /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6D41B2E41A232A9300DC79FF /* UIKit.framework */; };
@@ -65,6 +67,10 @@
 		48580BD01A2A018F00D97C13 /* UIAlertView+XPAlertView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIAlertView+XPAlertView.m"; sourceTree = "<group>"; };
 		48BAE4171A26C65700B05E00 /* SecretViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SecretViewController.h; sourceTree = "<group>"; };
 		48BAE4181A26C65700B05E00 /* SecretViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SecretViewController.m; sourceTree = "<group>"; };
+		6D1464591A6C54AA0046FF32 /* LocalImageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocalImageViewController.h; sourceTree = "<group>"; };
+		6D14645A1A6C54AA0046FF32 /* LocalImageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocalImageViewController.m; sourceTree = "<group>"; };
+		6D14645C1A6CE1720046FF32 /* CloudImageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CloudImageViewController.h; sourceTree = "<group>"; };
+		6D14645D1A6CE1720046FF32 /* CloudImageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CloudImageViewController.m; sourceTree = "<group>"; };
 		6D41B2DD1A232A9300DC79FF /* ephoto.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ephoto.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6D41B2E01A232A9300DC79FF /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		6D41B2E21A232A9300DC79FF /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -246,6 +252,10 @@
 				6D41B32D1A2380D800DC79FF /* MainTabBarController.m */,
 				6D41B35D1A248F6200DC79FF /* ImageViewController.h */,
 				6D41B35E1A248F6200DC79FF /* ImageViewController.m */,
+				6D1464591A6C54AA0046FF32 /* LocalImageViewController.h */,
+				6D14645A1A6C54AA0046FF32 /* LocalImageViewController.m */,
+				6D14645C1A6CE1720046FF32 /* CloudImageViewController.h */,
+				6D14645D1A6CE1720046FF32 /* CloudImageViewController.m */,
 				6D41B3341A2389A700DC79FF /* SecretKey.h */,
 				6D41B3351A2389A700DC79FF /* SecretKey.m */,
 				6D41B3631A25870100DC79FF /* PhotoMetaDB.h */,
@@ -438,10 +448,12 @@
 				6D41B3651A25870100DC79FF /* PhotoMetaDB.m in Sources */,
 				48BAE4191A26C65700B05E00 /* SecretViewController.m in Sources */,
 				6D41B3621A2581F600DC79FF /* CloudSelectorViewController.m in Sources */,
+				6D14645B1A6C54AA0046FF32 /* LocalImageViewController.m in Sources */,
 				6D41B36B1A281D1400DC79FF /* MBProgressHUD.m in Sources */,
 				6D41B2F11A232A9300DC79FF /* AppDelegate.m in Sources */,
 				6D41B3581A24890A00DC79FF /* NSData+CommonCrypto.m in Sources */,
 				6D41B3491A244AD000DC79FF /* LevelDB.mm in Sources */,
+				6D14645E1A6CE1720046FF32 /* CloudImageViewController.m in Sources */,
 				6D41B3681A28117300DC79FF /* EPhoto.m in Sources */,
 				6D41B3281A237C8300DC79FF /* ImageTableViewCell.m in Sources */,
 				6D41B35F1A248F6200DC79FF /* ImageViewController.m in Sources */,

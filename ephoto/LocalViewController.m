@@ -15,7 +15,7 @@
 #import "ImageViewController.h"
 #import "PhotoMetaDB.h"
 #import "EPhoto.h"
-
+#import "LocalImageViewController.h"
 
 @interface LocalViewController ()
 @property(nonatomic)ALAssetsLibrary *library;
@@ -138,8 +138,9 @@
     
     UIImage *image = [UIImage imageWithCGImage:cimage scale:1.0 orientation:orientation];
     
-    ImageViewController *c = [[ImageViewController alloc] init];
-    c.image = image;
+    LocalImageViewController *c = [[LocalImageViewController alloc] init];
+    c.assets = self.assets;
+    c.index = index;
     c.hidesBottomBarWhenPushed = YES;
     [self.navigationController pushViewController:c animated:YES];
 }
