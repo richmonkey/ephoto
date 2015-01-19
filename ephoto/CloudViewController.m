@@ -112,15 +112,10 @@
         return;
     }
     
-    DBFileInfo *info = [self.imageArray objectAtIndex:index];
-    UIImage *image = [EPhoto loadImage:info];
-    if (!image) {
-        NSLog(@"can't load image from cache");
-        return;
-    }
+
     CloudImageViewController *c = [[CloudImageViewController alloc] init];
-    c.image = image;
-    c.fileInfo = info;
+    c.imageArray = [NSMutableArray arrayWithArray:self.imageArray ];
+    c.index = index;
     c.hidesBottomBarWhenPushed = YES;
     [self.navigationController pushViewController:c animated:YES];
 }

@@ -25,7 +25,7 @@
 @property(nonatomic, weak)UIImageView *imageView2;
 @property(nonatomic, weak)UIImageView *imageView3;
 
-
+@property(nonatomic, weak)UIScrollView *scrollView;
 @property(nonatomic, assign)CGPoint contentOffset;
 
 @property(nonatomic)UIStatusBarStyle prevStatusStyle;
@@ -56,6 +56,32 @@
     scrollView.bounces = YES;
     scrollView.delegate = self;
     [self.view addSubview:scrollView];
+    self.scrollView = scrollView;
+    
+    [self loadImageViews];
+    
+    UITapGestureRecognizer *tap  = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTapImageView:)];
+    [tap setNumberOfTouchesRequired: 1];
+    [self.view addGestureRecognizer:tap];
+    
+    if (self.removable) {
+        UIButton *favButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 30, 30)];
+        
+        [favButton setImage:[UIImage imageNamed:@"topnav_del.png"] forState:UIControlStateNormal];
+        [favButton addTarget:self action:@selector(removeAction:)
+            forControlEvents:UIControlEventTouchUpInside];
+        
+        [favButton setTintColor:[UIColor blueColor]];
+        UIBarButtonItem *button = [[UIBarButtonItem alloc]
+                                   initWithCustomView:favButton];
+        
+        self.navigationItem.rightBarButtonItem = button;
+
+    }
+    
+}
+
+- (void)loadImageViews {
     if (self.imageCount == 0 || self.index < 0 || self.index >= self.imageCount) {
         return;
     }
@@ -86,6 +112,9 @@
         self.index3 = self.index + 1;
     }
     
+    CGRect bounds = self.view.bounds;
+    UIScrollView *scrollView = self.scrollView;
+    
     CGRect frame;
     UIImageView *imageView;
     
@@ -106,7 +135,7 @@
     self.imageView3 = imageView;
     self.imageView3.image = self.image3;
     [scrollView addSubview:self.imageView3];
- 
+    
     
     if (self.imageCount == 1) {
         scrollView.contentSize = CGSizeMake(bounds.size.width, bounds.size.height);
@@ -130,26 +159,7 @@
     }
     
     self.contentOffset = scrollView.contentOffset;
-    
-    UITapGestureRecognizer *tap  = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTapImageView:)];
-    [tap setNumberOfTouchesRequired: 1];
-    [self.view addGestureRecognizer:tap];
-    
-    if (self.removable) {
-        UIButton *favButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 30, 30)];
-        
-        [favButton setImage:[UIImage imageNamed:@"topnav_del.png"] forState:UIControlStateNormal];
-        [favButton addTarget:self action:@selector(removeAction:)
-            forControlEvents:UIControlEventTouchUpInside];
-        
-        [favButton setTintColor:[UIColor blueColor]];
-        UIBarButtonItem *button = [[UIBarButtonItem alloc]
-                                   initWithCustomView:favButton];
-        
-        self.navigationItem.rightBarButtonItem = button;
 
-    }
-    
 }
 
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
@@ -158,7 +168,12 @@
     
     CGPoint offset = scrollView.contentOffset;
 
-    if (offset.x > self.contentOffset.x) {
+    if (offset.x > self.contentOffset.x && (offset.x - self.contentOffset.x) > bounds.size.width/2) {
+        if (self.index == self.imageCount - 1) {
+            self.contentOffset = offset;
+            return;
+        }
+        
         self.index = self.index + 1;
         if (self.index == self.imageCount - 1) {
             self.contentOffset = offset;
@@ -185,7 +200,12 @@
         self.contentOffset = scrollView.contentOffset;
         
         
-    } else if (offset.x < self.contentOffset.x) {
+    } else if (offset.x < self.contentOffset.x && (self.contentOffset.x - offset.x) > bounds.size.width/2) {
+        if (self.index == 0) {
+            self.contentOffset = offset;
+            return;
+        }
+        
         self.index = self.index - 1;
         if (self.index == 0) {
             self.contentOffset = offset;
@@ -274,8 +294,13 @@
             if (self.index > 0) {
                 self.index = self.index - 1;
             }
-            
-            
+            [self.imageView1 removeFromSuperview];
+            [self.imageView2 removeFromSuperview];
+            [self.imageView3 removeFromSuperview];
+            self.imageView1 = nil;
+            self.imageView2 = nil;
+            self.imageView3 = nil;
+            [self loadImageViews];
         }
     }];
     

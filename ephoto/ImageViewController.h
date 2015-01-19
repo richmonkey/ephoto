@@ -10,8 +10,5 @@
 #import <Dropbox/Dropbox.h>
 
 @interface ImageViewController : UIViewController<UIScrollViewDelegate>
-
-
-
 @property(nonatomic, assign)NSInteger index;
 @end

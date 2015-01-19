@@ -8,8 +8,10 @@
 
 #import <UIKit/UIKit.h>
 #import <Dropbox/Dropbox.h>
+#import "ImageViewController.h"
 
-@interface CloudImageViewController : UIViewController
-@property(nonatomic)UIImage *image;
-@property(nonatomic)DBFileInfo  *fileInfo;
+@interface CloudImageViewController : ImageViewController
+
+@property(nonatomic)NSMutableArray *imageArray;
+
 @end
