@@ -51,6 +51,7 @@
     // Do any additional setup after loading the view.
     [self.view setBackgroundColor:[UIColor whiteColor]];
     CGRect bounds = self.view.bounds;
+    bounds.size.width += 20;
     UIScrollView *scrollView = [[UIScrollView alloc] initWithFrame:bounds];
     scrollView.pagingEnabled = YES;
     scrollView.bounces = YES;
@@ -103,25 +104,28 @@
         self.index3 = self.index + 1;
     }
     
-    CGRect bounds = self.view.bounds;
+
     UIScrollView *scrollView = self.scrollView;
+    CGRect bounds = scrollView.bounds;
+    CGRect viewBounds = bounds;
+    viewBounds.size.width -= 20;
     
     CGRect frame;
     UIImageView *imageView;
     
-    frame = bounds;
+    frame = viewBounds;
     imageView = [[UIImageView alloc] initWithFrame:frame];
     self.imageView1 = imageView;
     self.imageView1.image = self.image1;
     [scrollView addSubview:self.imageView1];
     
-    frame = CGRectOffset(bounds, 320, 0);
+    frame = CGRectOffset(viewBounds, bounds.size.width, 0);
     imageView = [[UIImageView alloc] initWithFrame:frame];
     self.imageView2 = imageView;
     self.imageView2.image = self.image2;
     [scrollView addSubview:self.imageView2];
     
-    frame = CGRectOffset(bounds, 640, 0);
+    frame = CGRectOffset(viewBounds, bounds.size.width*2, 0);
     imageView = [[UIImageView alloc] initWithFrame:frame];
     self.imageView3 = imageView;
     self.imageView3.image = self.image3;
@@ -228,6 +232,9 @@
 
 -(CGRect)centerFrame:(CGRect)bounds image:(UIImage*)image {
     //图片居中显示,保持原有宽高比例
+    if (image.size.width == 0 || bounds.size.width == 0) {
+        return CGRectMake(0, 0, 0, 0);
+    }
     float x, y, w, h;
     if (image.size.height/image.size.width > bounds.size.height/bounds.size.width) {
         w = bounds.size.height*(image.size.width/image.size.height);
