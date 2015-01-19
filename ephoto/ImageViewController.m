@@ -93,15 +93,6 @@
         self.index1 = self.index;
         self.index2 = self.index + 1;
         self.index3 = self.index + 2;
-    } else if (self.index == self.imageCount - 1) {
-        self.image1 = [self loadImage:self.imageCount - 3];
-        self.image2 = [self loadImage:self.imageCount - 2];
-        self.image3 = [self loadImage:self.imageCount - 1];
-        
-        self.index1 = self.imageCount - 3;
-        self.index2 = self.imageCount - 2;
-        self.index3 = self.imageCount - 1;
-        
     } else {
         self.image1 = [self loadImage:self.index - 1];
         self.image2 = [self loadImage:self.index];
@@ -139,7 +130,7 @@
     
     if (self.imageCount == 1) {
         scrollView.contentSize = CGSizeMake(bounds.size.width, bounds.size.height);
-        scrollView.contentOffset = CGPointMake(bounds.size.width, 0);
+        scrollView.contentOffset = CGPointMake(0, 0);
     } else if (self.imageCount == 2) {
         scrollView.contentSize = CGSizeMake(bounds.size.width*2, bounds.size.height);
         if (self.index == 0) {
