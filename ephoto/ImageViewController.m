@@ -13,13 +13,18 @@
 @interface ImageViewController ()
 
 
-@property(nonatomic)UIImage *prevImage;
-@property(nonatomic)UIImage *currentImage;
-@property(nonatomic)UIImage *nextImage;
+@property(nonatomic)NSInteger index1;
+@property(nonatomic)NSInteger index2;
+@property(nonatomic)NSInteger index3;
 
-@property(nonatomic, weak)UIImageView *prevImageView;
-@property(nonatomic, weak)UIImageView *currentImageView;
-@property(nonatomic, weak)UIImageView *nextImageView;
+@property(nonatomic)UIImage *image1;
+@property(nonatomic)UIImage *image2;
+@property(nonatomic)UIImage *image3;
+
+@property(nonatomic, weak)UIImageView *imageView1;
+@property(nonatomic, weak)UIImageView *imageView2;
+@property(nonatomic, weak)UIImageView *imageView3;
+
 
 @property(nonatomic, assign)CGPoint contentOffset;
 
@@ -55,88 +60,73 @@
         return;
     }
     
-    self.prevImage = [self loadImage:self.index - 1];
-    self.currentImage = [self loadImage:self.index];
-    self.nextImage = [self loadImage:self.index + 1];
+    if (self.index == 0) {
+        self.image1 = [self loadImage:self.index];
+        self.image2 = [self loadImage:self.index + 1];
+        self.image3 = [self loadImage:self.index + 2];
+        self.index1 = self.index;
+        self.index2 = self.index + 1;
+        self.index3 = self.index + 2;
+    } else if (self.index == self.imageCount - 1) {
+        self.image1 = [self loadImage:self.imageCount - 3];
+        self.image2 = [self loadImage:self.imageCount - 2];
+        self.image3 = [self loadImage:self.imageCount - 1];
+        
+        self.index1 = self.imageCount - 3;
+        self.index2 = self.imageCount - 2;
+        self.index3 = self.imageCount - 1;
+        
+    } else {
+        self.image1 = [self loadImage:self.index - 1];
+        self.image2 = [self loadImage:self.index];
+        self.image3 = [self loadImage:self.index + 1];
+        
+        self.index1 = self.index - 1;
+        self.index2 = self.index;
+        self.index3 = self.index + 1;
+    }
+    
+    CGRect frame;
+    UIImageView *imageView;
+    
+    frame = bounds;
+    imageView = [[UIImageView alloc] initWithFrame:frame];
+    self.imageView1 = imageView;
+    self.imageView1.image = self.image1;
+    [scrollView addSubview:self.imageView1];
+    
+    frame = CGRectOffset(bounds, 320, 0);
+    imageView = [[UIImageView alloc] initWithFrame:frame];
+    self.imageView2 = imageView;
+    self.imageView2.image = self.image2;
+    [scrollView addSubview:self.imageView2];
+    
+    frame = CGRectOffset(bounds, 640, 0);
+    imageView = [[UIImageView alloc] initWithFrame:frame];
+    self.imageView3 = imageView;
+    self.imageView3.image = self.image3;
+    [scrollView addSubview:self.imageView3];
+ 
     
     if (self.imageCount == 1) {
-        CGRect frame = bounds;
-        UIImageView *imageView = [[UIImageView alloc] initWithFrame:frame];
-        self.currentImageView = imageView;
-        self.currentImageView.image = self.currentImage;
-        [scrollView addSubview:self.currentImageView];
         scrollView.contentSize = CGSizeMake(bounds.size.width, bounds.size.height);
+        scrollView.contentOffset = CGPointMake(bounds.size.width, 0);
     } else if (self.imageCount == 2) {
-        if (self.prevImage) {
-            CGRect frame;
-            UIImageView *imageView;
-            frame = bounds;
-            imageView = [[UIImageView alloc] initWithFrame:frame];
-            self.prevImageView = imageView;
-            self.prevImageView.image = self.prevImage;
-            [scrollView addSubview:self.prevImageView];
-            frame = CGRectOffset(bounds, 320, 0);;
-            imageView = [[UIImageView alloc] initWithFrame:frame];
-            self.currentImageView = imageView;
-            self.currentImageView.image = self.currentImage;
-            [scrollView addSubview:self.currentImageView];
-            scrollView.contentSize = CGSizeMake(bounds.size.width*2, bounds.size.height);
-            scrollView.contentOffset = CGPointMake(bounds.size.width, 0);
+        scrollView.contentSize = CGSizeMake(bounds.size.width*2, bounds.size.height);
+        if (self.index == 0) {
+            scrollView.contentOffset = CGPointMake(0, 0);
         } else {
-            CGRect frame;
-            UIImageView *imageView;
-            frame = bounds;
-            imageView = [[UIImageView alloc] initWithFrame:frame];
-            self.currentImageView = imageView;
-            self.currentImageView.image = self.currentImage;
-            [scrollView addSubview:self.currentImageView];
-            
-            frame = CGRectOffset(bounds, 640, 0);
-            imageView = [[UIImageView alloc] initWithFrame:frame];
-            self.nextImageView = imageView;
-            self.nextImageView.image = self.nextImage;
-            [scrollView addSubview:self.nextImageView];
-            
-            scrollView.contentSize = CGSizeMake(bounds.size.width*2, bounds.size.height);
+            scrollView.contentOffset = CGPointMake(bounds.size.width, 0);
         }
     } else {
-        CGRect frame;
-        UIImageView *imageView;
-        
+        scrollView.contentSize = CGSizeMake(bounds.size.width*3, bounds.size.height);
         if (self.index == 0) {
-            self.index = 1;
-            self.prevImage = self.currentImage;
-            self.currentImage = self.nextImage;
-            self.nextImage = [self loadImage:self.index + 1];
             scrollView.contentOffset = CGPointMake(0, 0);
         } else if (self.index == self.imageCount - 1) {
-            self.index = self.imageCount - 2;
-            self.nextImage = self.currentImage;
-            self.currentImage = self.prevImage;
-            self.prevImage = [self loadImage:self.index - 1];
             scrollView.contentOffset = CGPointMake(bounds.size.width*2, 0);
         } else {
             scrollView.contentOffset = CGPointMake(bounds.size.width, 0);
         }
-        
-        frame = bounds;
-        imageView = [[UIImageView alloc] initWithFrame:frame];
-        self.prevImageView = imageView;
-        self.prevImageView.image = self.prevImage;
-        [scrollView addSubview:self.prevImageView];
-        
-        frame = CGRectOffset(bounds, 320, 0);
-        imageView = [[UIImageView alloc] initWithFrame:frame];
-        self.currentImageView = imageView;
-        self.currentImageView.image = self.currentImage;
-        [scrollView addSubview:self.currentImageView];
-        
-        frame = CGRectOffset(bounds, 640, 0);
-        imageView = [[UIImageView alloc] initWithFrame:frame];
-        self.nextImageView = imageView;
-        self.nextImageView.image = self.nextImage;
-        [scrollView addSubview:self.nextImageView];
-        scrollView.contentSize = CGSizeMake(bounds.size.width*3, bounds.size.height);
     }
     
     self.contentOffset = scrollView.contentOffset;
@@ -144,56 +134,85 @@
     UITapGestureRecognizer *tap  = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTapImageView:)];
     [tap setNumberOfTouchesRequired: 1];
     [self.view addGestureRecognizer:tap];
+    
+    if (self.removable) {
+        UIButton *favButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 30, 30)];
+        
+        [favButton setImage:[UIImage imageNamed:@"topnav_del.png"] forState:UIControlStateNormal];
+        [favButton addTarget:self action:@selector(removeAction:)
+            forControlEvents:UIControlEventTouchUpInside];
+        
+        [favButton setTintColor:[UIColor blueColor]];
+        UIBarButtonItem *button = [[UIBarButtonItem alloc]
+                                   initWithCustomView:favButton];
+        
+        self.navigationItem.rightBarButtonItem = button;
+
+    }
+    
 }
 
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
-    CGRect bounds = self.view.bounds;
+
+    CGRect bounds = scrollView.bounds;
     
     CGPoint offset = scrollView.contentOffset;
+
     if (offset.x > self.contentOffset.x) {
         self.index = self.index + 1;
+        if (self.index == self.imageCount - 1) {
+            self.contentOffset = offset;
+            return;
+        }
+        if (self.index == self.index2) {
+            self.contentOffset = offset;
+            return;
+        }
+        
+        self.index1 = self.index2;
+        self.index2 = self.index3;
+        self.index3 = self.index3 + 1;
+        
+        self.image1 = self.image2;
+        self.image2 = self.image3;
+        self.image3 = [self loadImage:self.index3];
+        
+        self.imageView1.image = self.image1;
+        self.imageView2.image = self.image2;
+        self.imageView3.image = self.image3;
+        
+        scrollView.contentOffset = CGPointMake(bounds.size.width, 0);
+        self.contentOffset = scrollView.contentOffset;
+        
+        
     } else if (offset.x < self.contentOffset.x) {
         self.index = self.index - 1;
-    }
-    self.contentOffset = offset;
-    
-    if (offset.x == bounds.size.width*2) {
-        if (self.index == self.imageCount - 1 || self.index == self.imageCount - 2) {
-            return;
-        }
-        self.index = self.index + 1;
-        
-        if (self.index >= self.imageCount) {
+        if (self.index == 0) {
+            self.contentOffset = offset;
             return;
         }
         
-        self.prevImage = self.currentImage;
-        self.currentImage = self.nextImage;
-        
-        self.nextImage = [self loadImage:self.index + 1];
-        
-        self.prevImageView.image = self.prevImage;
-        self.currentImageView.image = self.currentImage;
-        self.nextImageView.image = self.nextImage;
-        
-    } else if (offset.x == 0) {
-        if (self.index == 0 || self.index == 1) {
+        if (self.index == self.index2) {
+            self.contentOffset = offset;
             return;
         }
-        self.index = self.index - 1;
         
-        self.nextImage = self.currentImage;
-        self.currentImage = self.prevImage;
+        self.index3 = self.index2;
+        self.index2 = self.index1;
+        self.index1 = self.index1 - 1;
         
-        self.prevImage = [self loadImage:self.index - 1];
+        self.image3 = self.image2;
+        self.image2 = self.image1;
+        self.image1 =[self loadImage:self.index1];
         
-        self.prevImageView.image = self.prevImage;
-        self.currentImageView.image = self.currentImage;
-        self.nextImageView.image = self.nextImage;
+        self.imageView1.image = self.image1;
+        self.imageView2.image = self.image2;
+        self.imageView3.image = self.image3;
+        
+        scrollView.contentOffset = CGPointMake(bounds.size.width, 0);
+        self.contentOffset = scrollView.contentOffset;
         
     }
-    scrollView.contentOffset = CGPointMake(bounds.size.width, 0);
-    self.contentOffset = scrollView.contentOffset;
 }
 
 -(CGRect)centerFrame:(CGRect)bounds image:(UIImage*)image {
@@ -236,6 +255,31 @@
 
 -(UIImage*)loadImage:(NSInteger)index {
     return nil;
+}
+
+-(BOOL)removable {
+    return NO;
+}
+
+-(void)removeImage:(NSInteger)index {
+    
+}
+
+-(void)removeAction:(id)sender{
+    
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"will delete the image!"  delegate:nil cancelButtonTitle:@"canel" otherButtonTitles:@"ok", nil] ;
+    [alert showWithCompletion:^(UIAlertView *alertView, NSInteger buttonIndex){
+        if (buttonIndex == 1) {
+            [self removeImage:self.index];
+            if (self.index > 0) {
+                self.index = self.index - 1;
+            }
+            
+            
+        }
+    }];
+    
+    
 }
 
 
